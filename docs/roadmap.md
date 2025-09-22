@@ -1,0 +1,63 @@
+# 🗺️ Roadmap del Proyecto
+
+Este roadmap define los pasos de desarrollo del proyecto.
+
+---
+
+## Paso 0 (v0) — Setup inicial y configuración
+
+- [x] Inicializar Vite + React + TypeScript
+- [x] Configurar SCSS (`sass`) y estructura `styles/`
+- [x] Configurar imports absolutos (`tsconfig.json` + `vite.config.ts`)
+- [x] Añadir ESLint + Prettier con reglas para TS/React
+- [x] Añadir React Testing Library
+- [x] Configurar React Router (rutas base)
+- [x] Crear esqueleto de context API
+- [x] Añadir README con stack + decisiones de diseño
+- [x] Crear layout header + main para reutilizar en las distintas páginas
+
+---
+
+## Paso 1 (v1) — Pantalla Home + persistencia en Context
+
+- [ ] Implementar servicio para obtener los podcasts y persistirlos
+- [ ] Crear custom hook para gestionar los podcasts
+- [ ] Mostrar listado de podcasts
+- [ ] Añadir tests unitarios
+
+---
+
+## Paso 2 (v2) — Pantalla Podcast (detalle)
+
+- [ ] Implementar servicio para obtener detalle del podcast
+- [ ] Crear custom hook gestionar detalle del podcast
+- [ ] Mostrar detalle y episodios del podcast
+- [ ] Añadir tests unitarios
+
+---
+
+## Paso 3 (v3) — Pantalla Episodio
+
+- [ ] Crear custom hook gestionar detalle episodio de un podcast
+- [ ] Mostrar información del episodio
+- [ ] Reproducir episodio
+- [ ] Añadir tests unitarios
+
+---
+
+## Paso 4 (v4) — Calidad del proyecto
+
+- [ ] Configurar Husky + lint-staged con pre-commit (lint + prettier + tests)
+- [ ] Añadir tests end-to-end (Playwright)
+- [ ] Validar que los commits no se aceptan si fallan lint/tests
+
+---
+
+## Paso 5 (v5) — Enhancements (UX/UI)
+
+- [ ] Añadir skeleton loading en Home, PodcastDetail y EpisodeDetail
+- [ ] Implementar Dark Mode con SCSS variables
+- [ ] Mejorar accesibilidad (roles, labels, focus states)
+- [ ] Añadir mensajes de error y empty states consistentes
+
+---

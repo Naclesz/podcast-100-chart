@@ -1,0 +1,17 @@
+@use "@styles/variables" as *;
+
+.layout {
+  min-height: 100vh;
+
+  &__header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+  }
+
+  &__main {
+    max-width: $container-max-width;
+    margin: 0 auto;
+    padding-top: 100px;
+  }
+}

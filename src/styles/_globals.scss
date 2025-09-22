@@ -1,0 +1,16 @@
+/* Reset básico */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  font-family: $font-family-base;
+  background: $color-background;
+  color: $color-text;
+  line-height: 1.5;
+}
