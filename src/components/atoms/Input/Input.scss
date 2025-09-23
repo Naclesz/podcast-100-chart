@@ -1,0 +1,11 @@
+@use "@styles/variables" as *;
+
+$input-padding: 10px;
+$input-width: 300px;
+
+.input {
+  padding: $input-padding;
+  border-radius: $border-radius-01;
+  border: 1px solid $color-gray-01;
+  width: $input-width;
+}

@@ -1,0 +1,8 @@
+@use "@styles/variables" as *;
+
+$home-page-podcasts-margin: 128px;
+
+.home-page__podcasts {
+  margin-top: $home-page-podcasts-margin;
+  margin-bottom: $home-page-podcasts-margin;
+}

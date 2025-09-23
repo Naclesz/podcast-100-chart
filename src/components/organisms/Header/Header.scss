@@ -1,0 +1,26 @@
+@use "@styles/variables" as *;
+@use "@styles/animations" as *;
+
+.header {
+  display: flex;
+  padding: $gutter;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid $color-gray-01;
+  background-color: $color-background;
+
+  &_left {
+    h2 {
+      color: $color-primary;
+    }
+  }
+
+  &_loading {
+    @extend .pulse;
+
+    width: 20px;
+    height: 20px;
+    background-color: $color-primary;
+    border-radius: 50%;
+  }
+}

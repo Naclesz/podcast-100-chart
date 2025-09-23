@@ -1,0 +1,15 @@
+@use "@styles/variables" as *;
+
+$label-padding-horizontal: $separator-s;
+$label-padding-vertical: $separator-xs;
+
+.label {
+  font-weight: bold;
+  border-radius: $border-radius-02;
+  padding-left: $label-padding-horizontal;
+  padding-right: $label-padding-horizontal;
+  padding-top: $label-padding-vertical;
+  padding-bottom: $label-padding-vertical;
+  color: $color-background;
+  background-color: $color-primary;
+}

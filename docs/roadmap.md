@@ -21,8 +21,8 @@ Este roadmap define los pasos de desarrollo del proyecto.
 ## Paso 1 (v1) — Pantalla Home + persistencia en Context
 
 - [ ] Implementar servicio para obtener los podcasts y persistirlos
-- [ ] Crear custom hook para gestionar los podcasts
-- [ ] Mostrar listado de podcasts
+- [x] Crear custom hook para gestionar los podcasts
+- [x] Mostrar listado de podcasts
 - [ ] Añadir tests unitarios
 
 ---

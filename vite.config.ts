@@ -1,7 +1,6 @@
 import react from "@vitejs/plugin-react-swc";
 import { defineConfig } from "vite";
 
-// https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
   resolve: {
@@ -14,6 +13,19 @@ export default defineConfig({
       context: "/src/context",
       pages: "/src/pages",
       router: "/src/router",
+      config: "/src/config",
+      types: "/src/types",
+      utils: "/src/utils",
+    },
+  },
+  server: {
+    proxy: {
+      "/api/itunes": {
+        target: "https://itunes.apple.com",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/itunes/, ""),
+        secure: true,
+      },
     },
   },
 });

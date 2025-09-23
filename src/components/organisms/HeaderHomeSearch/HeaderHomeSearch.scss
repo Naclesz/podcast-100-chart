@@ -1,0 +1,10 @@
+@use "@styles/variables" as *;
+.header-home-search {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.header-home-search_label {
+  margin-right: $separator-m;
+}

@@ -78,3 +78,16 @@ El desarrollo del proyecto sigue un roadmap estructurado en fases. Puedes consul
 - **pages/** Vistas principales que representan rutas de la aplicación.
 - **router/** Configuración de navegación con React Router.
 - **styles/** Con ficheros parciales para variables, mixins, placeholders y estilos globales.
+
+## 🎯 Principios SOLID Aplicados
+
+- **Single responsability:**
+
+  - `api.config.ts` solo contiene configuración de endpoints
+  - `api.client.ts` solo construye un cliente http genérico
+  - `podcast.service.ts` solo gestiona la lógica de podcasts
+
+- **Open/Closed:**
+
+  - Facilidad para agregar nuevo endpoints sin tener que hacer modificaciones en el código existente
+  - El cliente http genérico se puede extender para dar soporte a otro tipo de servicios (POST, PUT, etc)

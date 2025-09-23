@@ -1,0 +1,28 @@
+@use "@styles/variables" as *;
+
+$podcast-grid-row-gap: 128px;
+
+.podcast-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: $gutter;
+  row-gap: $podcast-grid-row-gap;
+}
+
+@media (min-width: $breakpoint-sm) {
+  .podcast-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: $breakpoint-md) {
+  .podcast-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: $breakpoint-lg) {
+  .podcast-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
