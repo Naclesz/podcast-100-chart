@@ -14,7 +14,7 @@ export interface IPodcastService {
   getPodcastDetails(podcastId: string): Promise<DetailResult | null>;
 }
 
-class PodcastService implements IPodcastService {
+export class PodcastService implements IPodcastService {
   constructor(private readonly httpClient: IHttpClient) {}
 
   async getListPodcasts(): Promise<Podcast[]> {

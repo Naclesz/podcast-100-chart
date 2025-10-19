@@ -63,9 +63,23 @@ El desarrollo del proyecto sigue un roadmap estructurado en fases. Puedes consul
 
 ### Testing
 
-- **Jest**
-- **React testing library**
-- **Playwright**
+- **Vitest** - Test runner rápido y moderno para Vite
+- **React Testing Library** - Testing de componentes React
+- **@testing-library/jest-dom** - Matchers adicionales para assertions
+- **jsdom** - Simulación del DOM para tests
+
+#### 🧪 Comandos de Testing
+
+```bash
+# Ejecutar tests en modo watch (se re-ejecutan al guardar cambios)
+npm test
+
+# Abrir UI interactiva de Vitest en el navegador
+npm run test:ui
+
+# Generar reporte de cobertura de código
+npm run test:coverage
+```
 
 ---
 

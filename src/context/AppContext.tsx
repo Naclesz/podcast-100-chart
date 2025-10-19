@@ -1,38 +1,43 @@
 import React, {
   createContext,
+  useCallback,
   useContext,
   useEffect,
+  useMemo,
   useReducer,
   type ReactNode,
 } from "react";
-import type { Podcast } from "types/types";
+import { podcastService } from "services/podcast.service";
+import type { ApiError, Podcast } from "types/types";
+import { isStale } from "utils/utils";
 
 type AppState = {
   podcasts: Podcast[];
-  lastUpdated: Date;
+  lastUpdated: Date | null;
   isLoading: boolean;
-  error: string | null;
+  error: ApiError | null;
+  hydrated: boolean;
 };
 
 type AppAction =
   | { type: "SET_LOADING"; payload: boolean }
-  | { type: "SET_ERROR"; payload: string | null }
+  | { type: "SET_ERROR"; payload: ApiError | null }
   | { type: "SET_PODCASTS"; payload: Podcast[] }
   | { type: "HYDRATE_STATE"; payload: Partial<AppState> };
 
 type AppContextType = {
   state: AppState;
   dispatch: React.Dispatch<AppAction>;
-
   loadPodcasts: () => Promise<void>;
   clearError: () => void;
 };
 
 const initialState: AppState = {
   podcasts: [],
-  lastUpdated: new Date(),
+  lastUpdated: null,
   isLoading: false,
   error: null,
+  hydrated: false,
 };
 
 class StorageService {
@@ -75,7 +80,12 @@ function appReducer(state: AppState, action: AppAction): AppState {
       return { ...state, error: action.payload, isLoading: false };
 
     case "SET_PODCASTS":
-      return { ...state, podcasts: action.payload, isLoading: false };
+      return {
+        ...state,
+        podcasts: action.payload,
+        lastUpdated: new Date(),
+        isLoading: false,
+      };
 
     case "HYDRATE_STATE":
       return { ...state, ...action.payload };
@@ -99,48 +109,67 @@ export function AppProvider({
   useEffect(() => {
     const persistedState = StorageService.load();
     if (persistedState) {
-      dispatch({ type: "HYDRATE_STATE", payload: persistedState });
+      const hydratedState = {
+        ...persistedState,
+        lastUpdated: persistedState.lastUpdated
+          ? new Date(persistedState.lastUpdated)
+          : null,
+        hydrated: true,
+      };
+      dispatch({ type: "HYDRATE_STATE", payload: hydratedState });
+    } else {
+      dispatch({
+        type: "HYDRATE_STATE",
+        payload: { hydrated: true, lastUpdated: null, podcasts: [] },
+      });
     }
   }, []);
 
-  async function loadPodcasts(): Promise<void> {
+  useEffect(() => {
+    StorageService.save({
+      podcasts: state.podcasts,
+      lastUpdated: state.lastUpdated,
+    });
+  }, [state.podcasts, state.lastUpdated]);
+
+  const loadPodcasts = useCallback(async (): Promise<void> => {
+    if (state.isLoading) {
+      return;
+    }
+
+    if (state?.lastUpdated && !isStale(state.lastUpdated.getTime())) {
+      console.log("not stale");
+      return;
+    }
+
     try {
       dispatch({ type: "SET_LOADING", payload: true });
       dispatch({ type: "SET_ERROR", payload: null });
 
-      const mockPodcasts: Podcast[] = [
-        {
-          id: "1",
-          title: "Sample Podcast",
-          author: "A sample podcast",
-          imageUrl: "/sample.jpg",
-          details: {
-            episodes: [],
-          },
-          lastUpdated: new Date(),
-        },
-      ];
+      const podcasts = await podcastService.getListPodcasts();
 
-      dispatch({ type: "SET_PODCASTS", payload: mockPodcasts });
+      dispatch({ type: "SET_PODCASTS", payload: podcasts });
     } catch (error) {
       dispatch({
         type: "SET_ERROR",
-        payload:
-          error instanceof Error ? error.message : "Error loading podcasts",
+        payload: {
+          message:
+            error instanceof Error ? error.message : "Error loading podcasts",
+          status: (error as ApiError)?.status,
+          code: (error as ApiError)?.code,
+        },
       });
     }
-  }
+  }, [state.isLoading, state.lastUpdated]);
 
-  function clearError(): void {
+  const clearError = useCallback((): void => {
     dispatch({ type: "SET_ERROR", payload: null });
-  }
+  }, []);
 
-  const contextValue: AppContextType = {
-    state,
-    dispatch,
-    loadPodcasts,
-    clearError,
-  };
+  const contextValue = useMemo(
+    () => ({ state, dispatch, loadPodcasts, clearError }),
+    [state, loadPodcasts, clearError]
+  );
 
   return (
     <AppContext.Provider value={contextValue}>{children}</AppContext.Provider>
