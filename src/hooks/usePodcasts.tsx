@@ -1,5 +1,5 @@
 import { useAppContext } from "context/AppContext";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { ApiError, Podcast } from "types/types";
 
 type UsePodcastsState = {
@@ -12,33 +12,32 @@ type UsePodcastsState = {
 
 export const usePodcasts = (): UsePodcastsState => {
   const { state, loadPodcasts } = useAppContext();
-  const [filteredPodcasts, setFilteredPodcasts] = useState<Podcast[]>([]);
-  const [filteredPodcastsCount, setFilteredPodcastsCount] = useState(0);
+
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const filteredPodcasts = useMemo(() => {
+    if (!searchTerm.trim()) return state.podcasts;
+
+    const normalizedSearchTerm = searchTerm.toLowerCase();
+    return state.podcasts.filter(
+      (podcast) =>
+        podcast.title.toLowerCase().includes(normalizedSearchTerm) ||
+        podcast.author.toLowerCase().includes(normalizedSearchTerm)
+    );
+  }, [state.podcasts, searchTerm]);
 
   useEffect(() => {
     loadPodcasts();
   }, [loadPodcasts]);
 
-  useEffect(() => {
-    setFilteredPodcasts(state.podcasts);
-    setFilteredPodcastsCount(state.podcasts.length);
-  }, [state.podcasts]);
-
   function onFilterPodcasts(event: React.ChangeEvent<HTMLInputElement>): void {
-    const value = event.target.value;
-    const filter = state.podcasts.filter(
-      (podcast) =>
-        podcast.title.toLowerCase().includes(value.toLowerCase()) ||
-        podcast.author.toLowerCase().includes(value.toLowerCase())
-    );
-    setFilteredPodcasts(filter);
-    setFilteredPodcastsCount(filter.length);
+    setSearchTerm(event.target.value);
   }
 
   return {
     isLoading: state.isLoading,
     podcasts: filteredPodcasts,
-    filteredPodcastsCount,
+    filteredPodcastsCount: filteredPodcasts.length,
     error: state.error,
     onFilterPodcasts,
   };

@@ -23,7 +23,11 @@ export default function HomePage(): React.ReactNode {
           />
         </div>
         <div className="home-page__podcasts">
-          <PodcastGrid podcasts={podcasts} isLoading={isLoading} />
+          {error ? (
+            <div className="home-page__error">{error.message}</div>
+          ) : (
+            <PodcastGrid podcasts={podcasts} isLoading={isLoading} />
+          )}
         </div>
       </div>
     </Layout>
