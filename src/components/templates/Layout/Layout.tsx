@@ -1,4 +1,5 @@
 import Header from "components/organisms/Header/Header";
+import { useNavigate } from "react-router";
 import "./Layout.scss";
 
 type LayoutProps = {
@@ -6,10 +7,12 @@ type LayoutProps = {
 };
 
 export default function Layout({ children }: LayoutProps): React.ReactNode {
+  const navigate = useNavigate();
+
   return (
     <div className="layout">
       <div className="layout__header">
-        <Header />
+        <Header onClickHome={() => navigate("/")} />
       </div>
       <div className="layout__main">{children}</div>
     </div>

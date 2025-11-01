@@ -1,5 +1,6 @@
 import { useAppContext } from "context/AppContext";
 import HomePage from "pages/HomePage/HomePage";
+import PodcastPage from "pages/PodcastPage/PodcastPage";
 import { Route, Routes } from "react-router";
 
 export default function AppRouter(): React.ReactNode {
@@ -10,6 +11,7 @@ export default function AppRouter(): React.ReactNode {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
+      <Route path="/podcast/:podcastId" element={<PodcastPage />} />
     </Routes>
   );
 }

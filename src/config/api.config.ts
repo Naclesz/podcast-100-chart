@@ -20,7 +20,7 @@ export const buildApiUrl = (baseUrl: string, endpoint: string): string => {
 };
 
 export const buildPodcastDetailUrl = (podcastId: string): string => {
-  return `${API_BASE_URLS.ITUNES}${API_ENDPOINTS.PODCASTS.DETAIL}?${API_PARAMS.PODCAST_DETAIL.ID}=${podcastId}`;
+  return `${API_BASE_URLS.ITUNES}${API_ENDPOINTS.PODCASTS.DETAIL}?${API_PARAMS.PODCAST_DETAIL.ID}=${podcastId}&media=podcast&entity=podcastEpisode&limit=20`;
 };
 
 export const buildListPodcastsUrl = (): string => {

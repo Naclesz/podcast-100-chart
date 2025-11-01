@@ -1,0 +1,33 @@
+@use "@styles/variables" as *;
+@use "@styles/utils" as *;
+
+.podcast-detail-description {
+  @extend .card;
+  padding: $separator-l;
+
+  &__top {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid $color-gray-01;
+    padding-bottom: $separator-m;
+  }
+
+  &__image {
+    img {
+      border-radius: $border-radius-01;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &__center {
+    border-bottom: 1px solid $color-gray-01;
+    padding: $separator-m 0;
+  }
+
+  &__bottom {
+    padding: $separator-m 0;
+  }
+}

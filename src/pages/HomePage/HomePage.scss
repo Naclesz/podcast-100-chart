@@ -2,7 +2,22 @@
 
 $home-page-podcasts-margin: 128px;
 
-.home-page__podcasts {
-  margin-top: $home-page-podcasts-margin;
-  margin-bottom: $home-page-podcasts-margin;
+.home-page {
+  &__podcasts {
+    padding: $gutter;
+    margin-top: $home-page-podcasts-margin/2;
+    margin-bottom: $home-page-podcasts-margin;
+  }
+  &__header {
+    padding: $gutter;
+  }
+}
+
+@media (min-width: $breakpoint-md) {
+  .home-page {
+    &__podcasts {
+      padding: 0;
+      margin-top: $home-page-podcasts-margin;
+    }
+  }
 }

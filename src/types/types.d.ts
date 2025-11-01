@@ -4,19 +4,23 @@ export type Podcast = {
   title: string;
   author: string;
   imageUrl: string;
+  summary: string;
   details: PodcastDetails;
-  lastUpdated: number;
+  lastUpdated: Date | null;
 };
 
 export type PodcastDetails = {
   episodes: Episode[];
+  totalEpisodes: number | null;
 };
 
 export type Episode = {
-  id: string;
+  id: number;
   title: string;
+  description: string;
   duration: string;
   date: string;
+  episodeUrl: string;
 };
 
 //API Responses Types
@@ -51,17 +55,18 @@ export type PodcastEntry = {
 
 export type DetailResponse = {
   resultCount: number;
-  results: DetailResult[];
+  results: EpisodeEntry[];
 };
 
-export type DetailResult = {
-  collectionId: number;
-  collectionName: string;
-  artistName: string;
-  artworkUrl100: string;
-  artworkUrl600: string;
-  feedUrl: string;
-  primaryGenreName: string;
+export type EpisodeEntry = {
+  wrapperType: string;
+  trackId: number;
+  trackName: string;
+  description: string;
+  releaseDate: string;
+  episodeUrl: string;
+  trackTimeMillis: number;
+  trackCount: number;
 };
 export type ApiError = {
   message: string;

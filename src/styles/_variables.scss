@@ -4,6 +4,7 @@ $color-background: #fff;
 $color-text: #000;
 $color-text-secondary: #838380;
 $color-gray-01: #e2e2e2;
+$color-gray-02: #f7f7f8;
 
 // Tipografias
 $font-family-base: "Roboto", sans-serif;
@@ -12,13 +13,18 @@ $font-family-base: "Roboto", sans-serif;
 $gutter: 24px;
 $container-max-width: 1200px;
 
+// Tamaños de fuente
+$font-size-01: 48px;
+$font-size-02: 36px;
+$font-size-03: 24px;
+
 // Breakpoints
 $breakpoint-sm: 640px;
 $breakpoint-md: 768px;
 $breakpoint-lg: 1024px;
 
 // Border radius
-$border-radius-01: 6px;
+$border-radius-01: 4px;
 $border-radius-02: 10px;
 
 // Separadores

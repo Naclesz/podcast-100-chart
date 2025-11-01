@@ -1,0 +1,39 @@
+@use "@styles/variables" as *;
+@use "@styles/utils" as *;
+
+.podcast-page {
+  width: 100%;
+  padding: $gutter;
+
+  &__right {
+    margin-top: $separator-l;
+  }
+
+  &__right-header {
+    @extend .card;
+
+    padding: $separator-l;
+  }
+
+  &__right-episodes {
+    @extend .card;
+
+    padding: $separator-l;
+    margin-top: $separator-l;
+  }
+}
+
+@media (min-width: $breakpoint-md) {
+  .podcast-page {
+    display: flex;
+
+    &__left {
+      width: 30%;
+    }
+    &__right {
+      width: 70%;
+      margin-top: 0;
+      margin-left: $gutter;
+    }
+  }
+}

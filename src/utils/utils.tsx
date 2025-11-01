@@ -15,3 +15,12 @@ export function isStaleDebug(lastUpdated: number): boolean {
   const isStale = now - lastUpdated > ONE_MINUTE_MS;
   return isStale;
 }
+
+export function formatMillisecondsToTime(ms: number): string {
+  const date = new Date(ms);
+  const minutes = date.getMinutes();
+  const seconds = date.getSeconds();
+  return `${minutes.toString().padStart(2, "0")}:${seconds
+    .toString()
+    .padStart(2, "0")}`;
+}

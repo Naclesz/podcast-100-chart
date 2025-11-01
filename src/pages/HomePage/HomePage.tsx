@@ -9,8 +9,9 @@ export default function HomePage(): React.ReactNode {
     podcasts,
     isLoading,
     error,
-    onFilterPodcasts,
     filteredPodcastsCount,
+    onFilterPodcasts,
+    onClickPodcast,
   } = usePodcasts();
 
   return (
@@ -26,7 +27,11 @@ export default function HomePage(): React.ReactNode {
           {error ? (
             <div className="home-page__error">{error.message}</div>
           ) : (
-            <PodcastGrid podcasts={podcasts} isLoading={isLoading} />
+            <PodcastGrid
+              podcasts={podcasts}
+              isLoading={isLoading}
+              onClickPodcast={onClickPodcast}
+            />
           )}
         </div>
       </div>

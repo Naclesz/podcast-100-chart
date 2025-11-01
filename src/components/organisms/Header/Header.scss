@@ -9,13 +9,15 @@
   border-bottom: 1px solid $color-gray-01;
   background-color: $color-background;
 
-  &_left {
-    h2 {
+  &__left {
+    .header__title {
+      cursor: pointer;
+      font-size: $font-size-02;
       color: $color-primary;
     }
   }
 
-  &_loading {
+  &__loading {
     @extend .pulse;
 
     width: 20px;

@@ -8,3 +8,14 @@ createRoot(document.getElementById("root")!).render(
     <App />
   </BrowserRouter>
 );
+
+if (import.meta.env.DEV) {
+  window.debug = {
+    getState: () => JSON.parse(localStorage.getItem("podcast-app-state")),
+    clearState: () => localStorage.removeItem("podcast-app-state"),
+    setState: (state) =>
+      localStorage.setItem("podcast-app-state", JSON.stringify(state)),
+    showPodcasts: () =>
+      JSON.parse(localStorage.getItem("podcast-app-state"))?.podcasts,
+  };
+}

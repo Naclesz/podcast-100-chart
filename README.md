@@ -61,6 +61,9 @@ El desarrollo del proyecto sigue un roadmap estructurado en fases. Puedes consul
 - **Uso de SCSS en lugar de CSS plano**  
   Se utiliza SCSS como preprocesador de estilos en lugar de CSS nativo. Uso de variable para colores, tipografias, etc y anidamiento de selectors que hace los estilos más legibles
 
+- **Componentes alineados con los estándares de accesibilidad WCAG**
+  Uso de elementos interactivos, keyboard listeners, etc
+
 ### Testing
 
 - **Vitest** - Test runner rápido y moderno para Vite

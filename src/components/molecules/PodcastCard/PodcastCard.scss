@@ -7,15 +7,13 @@ $podcast-card-height: 180px;
 
 .podcast-card {
   @extend .pop-up;
+  @extend .card;
   display: flex;
   flex-direction: column;
   align-items: center;
   position: relative;
   height: $podcast-card-height;
   padding: $podcast-card-image-size/2 $separator-l $separator-l $separator-l;
-  border-radius: $border-radius-01;
-  background: $color-background;
-  box-shadow: $inner-shadow;
 
   &:hover {
     cursor: pointer;

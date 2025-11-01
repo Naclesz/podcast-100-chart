@@ -14,3 +14,10 @@ body {
   color: $color-text;
   line-height: 1.5;
 }
+
+button {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+}

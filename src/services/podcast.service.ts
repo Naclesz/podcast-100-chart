@@ -1,17 +1,19 @@
 import { buildListPodcastsUrl, buildPodcastDetailUrl } from "config/api.config";
 import type {
   DetailResponse,
-  DetailResult,
+  Episode,
+  EpisodeEntry,
   ListPodcastsResponse,
   Podcast,
+  PodcastDetails,
   PodcastEntry,
 } from "types/types";
-import { getMilliseconds } from "utils/utils";
+import { formatMillisecondsToTime } from "utils/utils";
 import { httpClient, type IHttpClient } from "./api.client";
 
 export interface IPodcastService {
   getListPodcasts(): Promise<Podcast[]>;
-  getPodcastDetails(podcastId: string): Promise<DetailResult | null>;
+  getPodcastDetails(podcastId: string): Promise<PodcastDetails | null>;
 }
 
 export class PodcastService implements IPodcastService {
@@ -24,11 +26,15 @@ export class PodcastService implements IPodcastService {
     return response.feed.entry.map(this.mapEntryToPodcast);
   }
 
-  async getPodcastDetails(podcastId: string): Promise<DetailResult | null> {
+  async getPodcastDetails(podcastId: string): Promise<PodcastDetails> {
     const url = buildPodcastDetailUrl(podcastId);
     const response = await this.httpClient.get<DetailResponse>(url);
 
-    return response.results.length > 0 ? response.results[0] : null;
+    const episodes = response.results
+      .filter((result) => result.wrapperType === "podcastEpisode")
+      .map(this.mapDetailResultToEpisode);
+
+    return { episodes, totalEpisodes: this.getTotalEpisodes(response.results) };
   }
 
   private mapEntryToPodcast(entry: PodcastEntry): Podcast {
@@ -40,12 +46,33 @@ export class PodcastService implements IPodcastService {
       id: entry.id.attributes["im:id"],
       title: entry["im:name"].label,
       author: entry["im:artist"].label,
+      summary: entry.summary.label,
       imageUrl: largestImage?.label || "",
       details: {
         episodes: [],
+        totalEpisodes: null,
       },
-      lastUpdated: getMilliseconds(),
+      lastUpdated: null,
     };
+  }
+
+  private mapDetailResultToEpisode(result: EpisodeEntry): Episode {
+    return {
+      id: result.trackId,
+      title: result.trackName,
+      description: result.description,
+      duration: formatMillisecondsToTime(result.trackTimeMillis),
+      date: new Date(result.releaseDate).toLocaleDateString(),
+      episodeUrl: result.episodeUrl,
+    };
+  }
+
+  private getTotalEpisodes(results: EpisodeEntry[]): number {
+    const trackInfo = results.find((result) => result.wrapperType === "track");
+    if (trackInfo?.trackCount) {
+      return trackInfo.trackCount;
+    }
+    return 0;
   }
 }
 
