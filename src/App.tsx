@@ -1,12 +1,7 @@
 import { AppProvider } from "./context/AppContext";
-import AppRouter from "./router/AppRouter";
 
-function App(): React.ReactNode {
-  return (
-    <AppProvider>
-      <AppRouter />
-    </AppProvider>
-  );
+function App({ children }: { children: React.ReactNode }): React.ReactNode {
+  return <AppProvider>{children}</AppProvider>;
 }
 
 export default App;

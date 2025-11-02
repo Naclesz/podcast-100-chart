@@ -1,12 +1,13 @@
 import { createRoot } from "react-dom/client";
-import { BrowserRouter } from "react-router";
+import { RouterProvider } from "react-router";
 import App from "./App.tsx";
+import { router } from "./router/routes";
 import "./styles/main.scss";
 
 createRoot(document.getElementById("root")!).render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>
+  <App>
+    <RouterProvider router={router} />
+  </App>
 );
 
 if (import.meta.env.DEV) {

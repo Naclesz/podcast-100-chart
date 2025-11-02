@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import type { Episode } from "types/types";
 import "./EpisodesTable.scss";
 
@@ -24,13 +25,12 @@ export default function EpisodesTable({
           {episodes.map((episode) => (
             <tr key={episode.id}>
               <td className="title-column">
-                <a
+                <Link
                   className="episodes-table__link"
-                  href={`/podcast/${podcastId}/episode/${episode.id}`}
-                  rel="noopener noreferrer"
+                  to={`/podcast/${podcastId}/episode/${episode.id}`}
                 >
                   {episode.title}
-                </a>
+                </Link>
               </td>
               <td className="date-column">{episode.date}</td>
               <td className="duration-column">{episode.duration}</td>

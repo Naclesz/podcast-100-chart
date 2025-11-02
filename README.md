@@ -64,6 +64,9 @@ El desarrollo del proyecto sigue un roadmap estructurado en fases. Puedes consul
 - **Componentes alineados con los estándares de accesibilidad WCAG**
   Uso de elementos interactivos, keyboard listeners, etc
 
+- **Navegación con createBrowserRouter**  
+  API moderna de React Router que ofrece mejor rendimiento, mejoras en debugging y posibilidad de incluir funcionalidades avanzadas
+
 ### Testing
 
 - **Vitest** - Test runner rápido y moderno para Vite

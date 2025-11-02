@@ -17,6 +17,7 @@ type AppState = {
   isLoading: boolean;
   error: ApiError | null;
   hydrated: boolean;
+  isNavigating: boolean;
 };
 
 type AppAction =
@@ -27,7 +28,8 @@ type AppAction =
       type: "SET_PODCAST_DETAILS";
       payload: { id: string; details: PodcastDetails };
     }
-  | { type: "HYDRATE_STATE"; payload: Partial<AppState> };
+  | { type: "HYDRATE_STATE"; payload: Partial<AppState> }
+  | { type: "SET_NAVIGATING"; payload: boolean };
 
 type AppContextType = {
   state: AppState;
@@ -35,6 +37,7 @@ type AppContextType = {
   loadPodcasts: () => Promise<void>;
   loadPodcastDetails: (podcastId: string) => Promise<void>;
   clearError: () => void;
+  setIsNavigating: (isNavigating: boolean) => void;
 };
 
 const initialState: AppState = {
@@ -43,6 +46,7 @@ const initialState: AppState = {
   isLoading: false,
   error: null,
   hydrated: false,
+  isNavigating: false,
 };
 
 class StorageService {
@@ -108,6 +112,9 @@ function appReducer(state: AppState, action: AppAction): AppState {
 
     case "HYDRATE_STATE":
       return { ...state, ...action.payload };
+
+    case "SET_NAVIGATING":
+      return { ...state, isNavigating: action.payload };
 
     default:
       return state;
@@ -229,8 +236,19 @@ export function AppProvider({
     dispatch({ type: "SET_ERROR", payload: null });
   }, []);
 
+  const setIsNavigating = useCallback((isNavigating: boolean): void => {
+    dispatch({ type: "SET_NAVIGATING", payload: isNavigating });
+  }, []);
+
   const contextValue = useMemo(
-    () => ({ state, dispatch, loadPodcasts, loadPodcastDetails, clearError }),
+    () => ({
+      state,
+      dispatch,
+      loadPodcasts,
+      loadPodcastDetails,
+      clearError,
+      setIsNavigating,
+    }),
     [state, loadPodcasts, loadPodcastDetails, clearError]
   );
 
