@@ -1,6 +1,8 @@
 @use "@styles/variables" as *;
 @use "@styles/utils" as *;
 
+$podcast-page-right-margin-left: 100px;
+
 .podcast-page {
   width: 100%;
   padding: $gutter;
@@ -33,7 +35,7 @@
     &__right {
       width: 70%;
       margin-top: 0;
-      margin-left: $gutter;
+      margin-left: $podcast-page-right-margin-left;
     }
   }
 }

@@ -20,7 +20,10 @@ export default function PodcastPage(): React.ReactNode {
             <h3>Episodes: {podcast.details.totalEpisodes}</h3>
           </div>
           <div className="podcast-page__right-episodes">
-            <EpisodesTable episodes={podcast.details.episodes} />
+            <EpisodesTable
+              podcastId={podcastId || ""}
+              episodes={podcast.details.episodes}
+            />
           </div>
         </div>
       </div>

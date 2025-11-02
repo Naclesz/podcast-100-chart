@@ -21,6 +21,7 @@ export type Episode = {
   duration: string;
   date: string;
   episodeUrl: string;
+  closedCaptioning?: string;
 };
 
 //API Responses Types
@@ -67,6 +68,7 @@ export type EpisodeEntry = {
   episodeUrl: string;
   trackTimeMillis: number;
   trackCount: number;
+  closedCaptioning?: string;
 };
 export type ApiError = {
   message: string;

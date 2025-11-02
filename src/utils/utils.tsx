@@ -17,10 +17,17 @@ export function isStaleDebug(lastUpdated: number): boolean {
 }
 
 export function formatMillisecondsToTime(ms: number): string {
-  const date = new Date(ms);
-  const minutes = date.getMinutes();
-  const seconds = date.getSeconds();
-  return `${minutes.toString().padStart(2, "0")}:${seconds
-    .toString()
-    .padStart(2, "0")}`;
+  const totalSeconds = Math.floor(ms / 1000);
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+
+  const formattedMinutes = minutes.toString().padStart(2, "0");
+  const formattedSeconds = seconds.toString().padStart(2, "0");
+
+  if (hours === 0) {
+    return `${formattedMinutes}:${formattedSeconds}`;
+  }
+
+  return `${hours}:${formattedMinutes}:${formattedSeconds}`;
 }

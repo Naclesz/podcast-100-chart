@@ -2,10 +2,12 @@ import type { Episode } from "types/types";
 import "./EpisodesTable.scss";
 
 type EpisodesTableProps = {
+  podcastId: string;
   episodes: Episode[];
 };
 
 export default function EpisodesTable({
+  podcastId,
   episodes,
 }: EpisodesTableProps): React.ReactNode {
   return (
@@ -24,7 +26,7 @@ export default function EpisodesTable({
               <td className="title-column">
                 <a
                   className="episodes-table__link"
-                  href={episode.episodeUrl}
+                  href={`/podcast/${podcastId}/episode/${episode.id}`}
                   rel="noopener noreferrer"
                 >
                   {episode.title}

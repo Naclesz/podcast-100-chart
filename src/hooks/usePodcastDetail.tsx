@@ -11,7 +11,7 @@ export const usePodcastDetail = (podcastId: string): UsePodcastDetailState => {
   const { state, loadPodcastDetails } = useAppContext();
 
   const podcast = useMemo(
-    () => state.podcasts.find((podcast) => podcast.id === podcastId) as Podcast,
+    () => state.podcasts.find((podcast) => podcast.id === podcastId),
     [state.podcasts, podcastId]
   );
 
@@ -20,7 +20,7 @@ export const usePodcastDetail = (podcastId: string): UsePodcastDetailState => {
   }, [loadPodcastDetails, podcastId]);
 
   return {
-    podcast,
+    podcast: podcast as Podcast,
     loadPodcastDetails,
   };
 };

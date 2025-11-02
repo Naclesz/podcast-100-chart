@@ -38,9 +38,9 @@ Este roadmap define los pasos de desarrollo del proyecto.
 
 ## Paso 3 (v3) — Pantalla Episodio
 
-- [ ] Crear custom hook gestionar detalle episodio de un podcast
-- [ ] Mostrar información del episodio
-- [ ] Reproducir episodio
+- [x] Crear custom hook gestionar detalle episodio de un podcast
+- [x] Mostrar información del episodio
+- [x] Reproducir episodio
 - [ ] Añadir tests unitarios
 
 ---

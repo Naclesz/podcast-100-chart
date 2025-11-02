@@ -64,6 +64,7 @@ export class PodcastService implements IPodcastService {
       duration: formatMillisecondsToTime(result.trackTimeMillis),
       date: new Date(result.releaseDate).toLocaleDateString(),
       episodeUrl: result.episodeUrl,
+      closedCaptioning: result.closedCaptioning,
     };
   }
 
