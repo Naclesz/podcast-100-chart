@@ -11,6 +11,11 @@ $home-page-podcasts-margin: 128px;
   &__header {
     padding: $gutter;
   }
+  &__empty {
+    text-align: center;
+    font-size: $font-size-02;
+    color: $color-text-secondary;
+  }
 }
 
 @media (min-width: $breakpoint-md) {

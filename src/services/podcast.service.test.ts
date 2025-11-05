@@ -320,7 +320,7 @@ describe("PodcastService", () => {
       const result = await podcastService.getPodcastDetails("duration-test");
 
       expect(result.episodes[0].duration).toBe("05:00");
-      expect(result.episodes[1].duration).toBe("00:00");
+      expect(result.episodes[1].duration).toBe("2:00:00");
     });
 
     it("should format episode dates correctly", async () => {

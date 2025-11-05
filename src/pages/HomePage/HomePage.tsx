@@ -13,6 +13,16 @@ export default function HomePage(): React.ReactNode {
     onFilterPodcasts,
   } = usePodcasts();
 
+  function renderPodcasts(): React.ReactNode {
+    if (error) {
+      return <div className="home-page__error">{error.message}</div>;
+    }
+    if (podcasts.length === 0) {
+      return <div className="home-page__empty">No podcasts found</div>;
+    }
+    return <PodcastGrid podcasts={podcasts} isLoading={isLoading} />;
+  }
+
   return (
     <Layout>
       <div className="home-page">
@@ -22,16 +32,7 @@ export default function HomePage(): React.ReactNode {
             filteredPodcastsCount={filteredPodcastsCount}
           />
         </div>
-        <div className="home-page__podcasts">
-          {error ? (
-            <div className="home-page__error">{error.message}</div>
-          ) : (
-            <PodcastGrid
-              podcasts={podcasts}
-              isLoading={isLoading}
-            />
-          )}
-        </div>
+        <div className="home-page__podcasts">{renderPodcasts()}</div>
       </div>
     </Layout>
   );
