@@ -31,6 +31,10 @@ Estas tres pantallas hacen uso de un layout compuesto por un header y un contene
 
 La aplicación está desplegada y disponible en: **https://podcast100chart.netlify.app/**
 
+### 📊 Análisis de Rendimiento
+
+Puedes consultar las métricas de rendimiento y accesibilidad en PageSpeed Insights: **[Ver análisis completo](https://pagespeed.web.dev/analysis/https-podcast100chart-netlify-app/bizuordxb5?form_factor=mobile)**
+
 ---
 
 ## 📋 Roadmap
