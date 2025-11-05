@@ -67,6 +67,12 @@ El desarrollo del proyecto sigue un roadmap estructurado en fases. Puedes consul
 - **Navegación con createBrowserRouter**  
   API moderna de React Router que ofrece mejor rendimiento, mejoras en debugging y posibilidad de incluir funcionalidades avanzadas
 
+- **Vite server proxy**
+  Para poder acceder a recursos externos que no proveen JSONP ni cabeceras CORS se ha hecho uso del proxy que permite configurar la build tool Vite
+
+- **Husky + lint-staged con pre-commit**
+  Bloquea los commit que tenga errores o warnings den Typescript indicados en las reglas establecidas en ESLint
+
 ### Testing
 
 - **Vitest** - Test runner rápido y moderno para Vite

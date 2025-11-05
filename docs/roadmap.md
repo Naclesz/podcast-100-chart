@@ -47,7 +47,7 @@ Este roadmap define los pasos de desarrollo del proyecto.
 
 ## Paso 4 (v4) — Calidad del proyecto
 
-- [ ] Configurar Husky + lint-staged con pre-commit (lint + prettier + tests)
+- [ ] Configurar Husky + lint-staged con pre-commit (lint)
 - [ ] Añadir tests end-to-end (Playwright)
 - [ ] Validar que los commits no se aceptan si fallan lint/tests
 
