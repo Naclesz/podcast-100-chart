@@ -9,7 +9,8 @@ import type {
   PodcastEntry,
 } from "types/types";
 import { formatMillisecondsToTime } from "utils/utils";
-import { httpClient, type IHttpClient } from "./api.client";
+import type { IHttpClient } from "./api.client";
+import { httpClient } from "./api.client";
 
 export interface IPodcastService {
   getListPodcasts(): Promise<Podcast[]>;
@@ -17,7 +18,11 @@ export interface IPodcastService {
 }
 
 export class PodcastService implements IPodcastService {
-  constructor(private readonly httpClient: IHttpClient) {}
+  private readonly httpClient: IHttpClient;
+
+  constructor(httpClient: IHttpClient) {
+    this.httpClient = httpClient;
+  }
 
   async getListPodcasts(): Promise<Podcast[]> {
     const url = buildListPodcastsUrl();
