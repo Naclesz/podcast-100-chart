@@ -1,0 +1,30 @@
+@use "@styles/variables" as *;
+@use "@styles/utils" as *;
+
+.route-error {
+  @extend .card;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  padding: $gutter;
+
+  &__details {
+    margin-top: $separator-l;
+    color: $color-text-secondary;
+  }
+
+  &__actions {
+    margin-top: $separator-l;
+    display: flex;
+    justify-content: center;
+    gap: $separator-l;
+  }
+
+  &__actions-home,
+  &__actions-reload button {
+    cursor: pointer;
+    font-size: $font-size-03;
+  }
+}

@@ -9,6 +9,20 @@ export default function PodcastPage(): React.ReactNode {
   const { podcastId } = useParams();
   const { podcast } = usePodcastDetail(podcastId || "");
 
+  if (!podcast) {
+    throw new Error(
+      `Podcast con ID "${podcastId}" no encontrado. Verifica que el localStorage tenga datos o que el ID sea válido.`
+    );
+  }
+
+  if (!podcast.details) {
+    throw new Error(
+      `Los detalles del podcast "${
+        podcast.title || podcastId
+      }" no están disponibles. Intenta recargar la página.`
+    );
+  }
+
   return (
     <Layout>
       <div className="podcast-page">

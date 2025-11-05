@@ -1,3 +1,5 @@
+/* eslint-disable react-refresh/only-export-components */
+import RouteError from "components/organisms/RouteError/RouteError";
 import { useAppContext } from "context/AppContext";
 import { NavigationProvider } from "context/NavigationContext";
 import EpisodePage from "pages/EpisodePage/EpisodePage";
@@ -30,6 +32,7 @@ function RouteWrapper({
 export const router = createBrowserRouter([
   {
     element: <RootLayout />,
+    errorElement: <RouteError />,
     children: [
       {
         path: "/",
@@ -38,6 +41,7 @@ export const router = createBrowserRouter([
             <HomePage />
           </RouteWrapper>
         ),
+        errorElement: <RouteError />,
       },
       {
         path: "/podcast/:podcastId",
@@ -46,6 +50,7 @@ export const router = createBrowserRouter([
             <PodcastPage />
           </RouteWrapper>
         ),
+        errorElement: <RouteError />,
       },
       {
         path: "/podcast/:podcastId/episode/:episodeId",
@@ -54,6 +59,7 @@ export const router = createBrowserRouter([
             <EpisodePage />
           </RouteWrapper>
         ),
+        errorElement: <RouteError />,
       },
     ],
   },

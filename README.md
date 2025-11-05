@@ -27,6 +27,10 @@ Está compuesta por tres pantallas principales:
 
 Estas tres pantallas hacen uso de un layout compuesto por un header y un contenedor. En el header se muestra el nombre de la aplicación, que es accionable y redirige a la vista de home y un indicador que refleja un cambio en la navegación.
 
+## 🌐 Demo en Vivo
+
+La aplicación está desplegada y disponible en: **https://podcast100chart.netlify.app/**
+
 ---
 
 ## 📋 Roadmap
@@ -65,13 +69,16 @@ El desarrollo del proyecto sigue un roadmap estructurado en fases. Puedes consul
   Uso de elementos interactivos, keyboard listeners, etc
 
 - **Navegación con createBrowserRouter**  
-  API moderna de React Router que ofrece mejor rendimiento, mejoras en debugging y posibilidad de incluir funcionalidades avanzadas
+  API moderna de React Router que ofrece mejor rendimiento, mejoras en debugging y posibilidad de incluir funcionalidades avanzadas, como el uso de errorElement para manejo controlado de errores de ejecución.
 
 - **Vite server proxy**
   Para poder acceder a recursos externos que no proveen JSONP ni cabeceras CORS se ha hecho uso del proxy que permite configurar la build tool Vite
 
 - **Husky + lint-staged con pre-commit**
   Bloquea los commit que tenga errores o warnings den Typescript indicados en las reglas establecidas en ESLint
+
+- **Manejo de errores con React Router errorElement**  
+  Se implementa una UI de error elegante usando la propiedad `errorElement` de React Router que captura errores durante el renderizado de componentes. Proporciona una experiencia de usuario mejorada con mensajes informativos y acciones de recuperación cuando ocurren fallos inesperados.
 
 ### Testing
 
