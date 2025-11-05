@@ -1,0 +1,2 @@
+# Proxy iTunes API requests
+/api/itunes/*  https://itunes.apple.com/:splat  200

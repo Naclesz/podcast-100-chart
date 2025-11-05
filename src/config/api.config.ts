@@ -1,5 +1,5 @@
 export const API_BASE_URLS = {
-  ITUNES: import.meta.env.DEV ? "/api/itunes" : "https://itunes.apple.com",
+  ITUNES: "/api/itunes",
 } as const;
 
 export const API_ENDPOINTS = {
