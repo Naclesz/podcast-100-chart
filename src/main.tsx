@@ -1,13 +1,13 @@
 import { createRoot } from "react-dom/client";
 import { RouterProvider } from "react-router";
-import App from "./App.tsx";
+import { AppProvider } from "./context/AppContext";
 import { router } from "./router/routes";
 import "./styles/main.scss";
 
 createRoot(document.getElementById("root")!).render(
-  <App>
+  <AppProvider>
     <RouterProvider router={router} />
-  </App>
+  </AppProvider>
 );
 
 if (import.meta.env.DEV) {

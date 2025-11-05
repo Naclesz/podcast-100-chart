@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import NavLink from "components/atoms/NavLink/NavLink";
 import type { Episode } from "types/types";
 import "./EpisodesTable.scss";
 
@@ -25,12 +25,12 @@ export default function EpisodesTable({
           {episodes.map((episode) => (
             <tr key={episode.id}>
               <td className="title-column">
-                <Link
+                <NavLink
                   className="episodes-table__link"
                   to={`/podcast/${podcastId}/episode/${episode.id}`}
                 >
                   {episode.title}
-                </Link>
+                </NavLink>
               </td>
               <td className="date-column">{episode.date}</td>
               <td className="duration-column">{episode.duration}</td>

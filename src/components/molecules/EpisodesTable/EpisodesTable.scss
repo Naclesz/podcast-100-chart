@@ -28,4 +28,8 @@ $episodes-table-row-height: 42px;
   tbody tr:nth-child(even) {
     background-color: $color-gray-02;
   }
+
+  &__link {
+    color: $color-primary;
+  }
 }

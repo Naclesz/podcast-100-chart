@@ -11,7 +11,6 @@ export default function HomePage(): React.ReactNode {
     error,
     filteredPodcastsCount,
     onFilterPodcasts,
-    onClickPodcast,
   } = usePodcasts();
 
   return (
@@ -30,7 +29,6 @@ export default function HomePage(): React.ReactNode {
             <PodcastGrid
               podcasts={podcasts}
               isLoading={isLoading}
-              onClickPodcast={onClickPodcast}
             />
           )}
         </div>

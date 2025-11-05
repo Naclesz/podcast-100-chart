@@ -1,10 +1,18 @@
 import { useAppContext } from "context/AppContext";
+import { NavigationProvider } from "context/NavigationContext";
 import EpisodePage from "pages/EpisodePage/EpisodePage";
 import HomePage from "pages/HomePage/HomePage";
 import PodcastPage from "pages/PodcastPage/PodcastPage";
-import { createBrowserRouter } from "react-router";
+import { createBrowserRouter, Outlet } from "react-router";
 
-// Wrapper component to handle hydration logic
+function RootLayout(): React.ReactNode {
+  return (
+    <NavigationProvider>
+      <Outlet />
+    </NavigationProvider>
+  );
+}
+
 function RouteWrapper({
   children,
 }: {
@@ -21,27 +29,32 @@ function RouteWrapper({
 
 export const router = createBrowserRouter([
   {
-    path: "/",
-    element: (
-      <RouteWrapper>
-        <HomePage />
-      </RouteWrapper>
-    ),
-  },
-  {
-    path: "/podcast/:podcastId",
-    element: (
-      <RouteWrapper>
-        <PodcastPage />
-      </RouteWrapper>
-    ),
-  },
-  {
-    path: "/podcast/:podcastId/episode/:episodeId",
-    element: (
-      <RouteWrapper>
-        <EpisodePage />
-      </RouteWrapper>
-    ),
+    element: <RootLayout />,
+    children: [
+      {
+        path: "/",
+        element: (
+          <RouteWrapper>
+            <HomePage />
+          </RouteWrapper>
+        ),
+      },
+      {
+        path: "/podcast/:podcastId",
+        element: (
+          <RouteWrapper>
+            <PodcastPage />
+          </RouteWrapper>
+        ),
+      },
+      {
+        path: "/podcast/:podcastId/episode/:episodeId",
+        element: (
+          <RouteWrapper>
+            <EpisodePage />
+          </RouteWrapper>
+        ),
+      },
+    ],
   },
 ]);

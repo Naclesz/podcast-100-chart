@@ -1,24 +1,19 @@
+import NavLink from "components/atoms/NavLink/NavLink";
 import "./Header.scss";
 
 type HeaderProps = {
   isLoading?: boolean;
-  onClickHome: () => void;
 };
 
 export default function Header({
   isLoading = false,
-  onClickHome,
 }: HeaderProps): React.ReactNode {
   return (
     <header className="header">
       <div className="header__left">
-        <button
-          className="header__title"
-          onClick={onClickHome}
-          aria-label="Go to home"
-        >
+        <NavLink to="/" className="header__title" aria-label="Go to home">
           Podcaster
-        </button>
+        </NavLink>
       </div>
       <div className="header__right">
         {isLoading && <div className="header__loading" />}

@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router";
+import NavLink from "components/atoms/NavLink/NavLink";
 import type { Podcast } from "types/types";
 import "./PodcastDetailDescription.scss";
 
@@ -8,37 +8,32 @@ type PodcastDetailDescriptionProps = {
 export default function PodcastDetailDescription({
   podcast,
 }: PodcastDetailDescriptionProps): React.ReactNode {
-  const navigate = useNavigate();
-
-  function handleClick(): void {
-    navigate(`/podcast/${podcast.id}`);
-  }
   return (
     <div className="podcast-detail-description">
       <div className="podcast-detail-description__top">
-        <button
+        <NavLink
+          to={`/podcast/${podcast.id}`}
           className="podcast-detail-description__image"
-          onClick={handleClick}
           aria-label={`Return to podcast details for ${podcast.title}`}
         >
           <img src={podcast.imageUrl} alt={podcast.title} />
-        </button>
+        </NavLink>
       </div>
       <div className="podcast-detail-description__center">
-        <button
-          onClick={handleClick}
+        <NavLink
+          to={`/podcast/${podcast.id}`}
           aria-label={`Return to podcast details for ${podcast.title}`}
           className="podcast-detail-description__title"
         >
           <h3>{podcast.title}</h3>
-        </button>
-        <button
+        </NavLink>
+        <NavLink
+          to={`/podcast/${podcast.id}`}
           className="podcast-detail-description__author"
-          onClick={handleClick}
           aria-label={`Return to podcast details for ${podcast.title}`}
         >
           <i>By {podcast.author}</i>
-        </button>
+        </NavLink>
       </div>
       <div className="podcast-detail-description__bottom">
         <div className="podcast-detail-description__description">

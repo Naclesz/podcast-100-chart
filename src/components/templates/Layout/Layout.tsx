@@ -1,5 +1,5 @@
 import Header from "components/organisms/Header/Header";
-import { useNavigation } from "hooks/useNavigation";
+import { useNavigationContext } from "context/NavigationContext";
 import "./Layout.scss";
 
 type LayoutProps = {
@@ -7,12 +7,12 @@ type LayoutProps = {
 };
 
 export default function Layout({ children }: LayoutProps): React.ReactNode {
-  const { navigateTo } = useNavigation();
+  const { isNavigating } = useNavigationContext();
 
   return (
     <div className="layout">
       <div className="layout__header">
-        <Header onClickHome={() => navigateTo("/")} />
+        <Header isLoading={isNavigating} />
       </div>
       <div className="layout__main">{children}</div>
     </div>
