@@ -1,4 +1,5 @@
 import PodcastCard from "components/molecules/PodcastCard/PodcastCard";
+import { memo } from "react";
 import type { Podcast } from "types/types";
 import "./PodcastGrid.scss";
 
@@ -7,7 +8,7 @@ type PodcastGridProps = {
   isLoading: boolean;
 };
 
-export default function PodcastGrid({
+const PodcastGrid = memo(function PodcastGrid({
   podcasts,
 }: PodcastGridProps): React.ReactNode {
   return (
@@ -17,4 +18,6 @@ export default function PodcastGrid({
       ))}
     </div>
   );
-}
+});
+
+export default PodcastGrid;

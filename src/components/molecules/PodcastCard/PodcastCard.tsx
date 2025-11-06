@@ -1,4 +1,5 @@
 import NavLink from "components/atoms/NavLink/NavLink";
+import React, { memo } from "react";
 import type { Podcast } from "types/types";
 import "./PodcastCard.scss";
 
@@ -6,7 +7,7 @@ type PodcastCardProps = {
   podcast: Podcast;
 };
 
-export default function PodcastCard({
+const PodcastCard = memo(function PodcastCard({
   podcast,
 }: PodcastCardProps): React.ReactNode {
   return (
@@ -28,4 +29,6 @@ export default function PodcastCard({
       </div>
     </NavLink>
   );
-}
+});
+
+export default PodcastCard;

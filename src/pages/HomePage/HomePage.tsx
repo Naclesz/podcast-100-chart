@@ -2,9 +2,10 @@ import PodcastGrid from "components/molecules/PodcastGrid/PodcastGrid";
 import HeaderHomeSearch from "components/organisms/HeaderHomeSearch/HeaderHomeSearch";
 import Layout from "components/templates/Layout/Layout";
 import { usePodcasts } from "hooks/usePodcasts";
+import { memo } from "react";
 import "./HomePage.scss";
 
-export default function HomePage(): React.ReactNode {
+const HomePage = memo(function HomePage(): React.ReactNode {
   const {
     podcasts,
     isLoading,
@@ -36,4 +37,6 @@ export default function HomePage(): React.ReactNode {
       </div>
     </Layout>
   );
-}
+});
+
+export default HomePage;
