@@ -57,7 +57,7 @@ Este roadmap define los pasos de desarrollo del proyecto.
 
 - [ ] Añadir skeleton loading en Home, PodcastDetail y EpisodeDetail
 - [ ] Implementar Dark Mode con SCSS variables
-- [ ] Mejorar accesibilidad (roles, labels, focus states)
-- [ ] Añadir mensajes de error y empty states consistentes
+- [x] Mejorar accesibilidad (roles, labels, focus states)
+- [x] Añadir mensajes de error y empty states consistentes
 
 ---

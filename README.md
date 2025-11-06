@@ -37,6 +37,55 @@ Puedes consultar las métricas de rendimiento y accesibilidad en PageSpeed Insig
 
 ---
 
+## 🚀 Cómo Ejecutar la Aplicación
+
+### Instalación de dependencias
+
+```bash
+npm install
+```
+
+### 🔧 Modo Development
+
+Ejecuta la aplicación en modo desarrollo con hot-reload:
+
+```bash
+npm run dev
+```
+
+**Características del modo development:**
+
+- ✅ Assets servidos **sin minimizar** para facilitar debugging
+- ✅ Hot Module Replacement (HMR) - cambios instantáneos sin recargar
+- ✅ Source maps completos
+- 🌐 Disponible en: `http://localhost:5173`
+
+### 🚀 Modo Production
+
+Genera el build optimizado para producción:
+
+```bash
+npm run build
+```
+
+**Características del build de producción:**
+
+- ✅ Assets **concatenados y minimizados** para máximo rendimiento
+- ✅ Code splitting automático
+- ✅ Optimización de imágenes y recursos
+- ✅ Hash en nombres de archivos para cache busting
+- 📦 Salida generada en: `/dist`
+
+**Preview del build de producción:**
+
+```bash
+npm run preview
+```
+
+Esto sirve el build de producción localmente para verificar que todo funciona correctamente antes del despliegue.
+
+---
+
 ## 📋 Roadmap
 
 El desarrollo del proyecto sigue un roadmap estructurado en fases. Puedes consultar el progreso actual y las próximas funcionalidades en [docs/roadmap.md](docs/roadmap.md).
