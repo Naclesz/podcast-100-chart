@@ -5,8 +5,8 @@ $home-page-podcasts-margin: 128px;
 .home-page {
   &__podcasts {
     padding: $gutter;
-    margin-top: $home-page-podcasts-margin/2;
-    margin-bottom: $home-page-podcasts-margin;
+    margin-top: calc($home-page-podcasts-margin/2);
+    margin-bottom: calc($home-page-podcasts-margin);
   }
   &__header {
     padding: $gutter;

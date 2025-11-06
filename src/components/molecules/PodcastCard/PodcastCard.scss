@@ -13,7 +13,8 @@ $podcast-card-height: 180px;
   align-items: center;
   position: relative;
   height: $podcast-card-height;
-  padding: $podcast-card-image-size/2 $separator-l $separator-l $separator-l;
+  padding: calc($podcast-card-image-size/2) $separator-l $separator-l
+    $separator-l;
 
   &:hover {
     cursor: pointer;
@@ -22,7 +23,7 @@ $podcast-card-height: 180px;
 
   &__image {
     position: absolute;
-    top: -($podcast-card-image-size / 2);
+    top: -(calc($podcast-card-image-size / 2));
     left: 50%;
     transform: translateX(-50%);
     width: $podcast-card-image-size;
