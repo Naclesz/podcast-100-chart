@@ -130,15 +130,13 @@ El desarrollo del proyecto sigue un roadmap estructurado en fases. Puedes consul
 - **Husky + lint-staged con pre-commit**
   Bloquea los commit que tenga errores o warnings den Typescript indicados en las reglas establecidas en ESLint
 
-- **Manejo de errores con React Router errorElement**  
-  Se implementa una UI de error elegante usando la propiedad `errorElement` de React Router que captura errores durante el renderizado de componentes. Proporciona una experiencia de usuario mejorada con mensajes informativos y acciones de recuperación cuando ocurren fallos inesperados.
-
 ### Testing
 
 - **Vitest** - Test runner rápido y moderno para Vite
 - **React Testing Library** - Testing de componentes React
 - **@testing-library/jest-dom** - Matchers adicionales para assertions
 - **jsdom** - Simulación del DOM para tests
+- **Playwright** - Testing E2E
 
 #### 🧪 Comandos de Testing
 
@@ -151,6 +149,9 @@ npm run test:ui
 
 # Generar reporte de cobertura de código
 npm run test:coverage
+
+# Ejecutar teste E2E
+npm run test:e2e
 ```
 
 ---
