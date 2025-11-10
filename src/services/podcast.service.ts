@@ -28,18 +28,22 @@ export class PodcastService implements IPodcastService {
     const url = buildListPodcastsUrl();
     const response = await this.httpClient.get<ListPodcastsResponse>(url);
 
-    return response.feed.entry.map(this.mapEntryToPodcast);
+    return response?.feed?.entry.map(this.mapEntryToPodcast) || [];
   }
 
   async getPodcastDetails(podcastId: string): Promise<PodcastDetails> {
     const url = buildPodcastDetailUrl(podcastId);
     const response = await this.httpClient.get<DetailResponse>(url);
 
-    const episodes = response.results
-      .filter((result) => result.wrapperType === "podcastEpisode")
-      .map(this.mapDetailResultToEpisode);
+    const episodes =
+      response?.results
+        ?.filter((result) => result.wrapperType === "podcastEpisode")
+        .map(this.mapDetailResultToEpisode) || [];
 
-    return { episodes, totalEpisodes: this.getTotalEpisodes(response.results) };
+    return {
+      episodes,
+      totalEpisodes: this.getTotalEpisodes(response?.results || []),
+    };
   }
 
   private mapEntryToPodcast(entry: PodcastEntry): Podcast {
@@ -66,8 +70,12 @@ export class PodcastService implements IPodcastService {
       id: result.trackId,
       title: result.trackName,
       description: result.description,
-      duration: formatMillisecondsToTime(result.trackTimeMillis),
-      date: new Date(result.releaseDate).toLocaleDateString(),
+      duration: result.trackTimeMillis
+        ? formatMillisecondsToTime(result.trackTimeMillis)
+        : "",
+      date: result.releaseDate
+        ? new Date(result.releaseDate).toLocaleDateString()
+        : "",
       episodeUrl: result.episodeUrl,
       closedCaptioning: result.closedCaptioning,
     };
