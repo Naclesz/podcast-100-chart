@@ -8,6 +8,140 @@ This document outlines the strategy for migrating the podcast-100-chart applicat
 
 **Difficulty Assessment**: 6/10 (Medium complexity)
 
+**FSD Directory Structure for Your Project**
+
+src/
+├── app/ # Application layer - initialization & providers
+│ ├── providers/
+│ │ ├── AppProvider.tsx # From context/AppContext.tsx
+│ │ ├── NavigationProvider.tsx # From context/NavigationContext.tsx
+│ │ └── index.tsx # Compose all providers
+│ ├── router/
+│ │ ├── routes.tsx # From router/routes.tsx
+│ │ └── index.ts
+│ ├── styles/
+│ │ ├── index.scss # Global styles entry
+│ │ ├── \_variables.scss # From styles/
+│ │ ├── \_mixins.scss
+│ │ └── \_global.scss
+│ ├── index.tsx # From main.tsx
+│ └── App.tsx
+│
+├── pages/ # Page layer - route pages
+│ ├── home/
+│ │ ├── ui/
+│ │ │ ├── HomePage.tsx # From pages/HomePage/HomePage.tsx
+│ │ │ └── HomePage.scss
+│ │ └── index.ts
+│ ├── podcast-detail/
+│ │ ├── ui/
+│ │ │ ├── PodcastPage.tsx # From pages/PodcastPage/PodcastPage.tsx
+│ │ │ └── PodcastPage.scss
+│ │ └── index.ts
+│ ├── episode-detail/
+│ │ ├── ui/
+│ │ │ ├── EpisodePage.tsx # From pages/EpisodePage/EpisodePage.tsx
+│ │ │ └── EpisodePage.scss
+│ │ └── index.ts
+│ └── error/
+│ ├── ui/
+│ │ ├── RouteError.tsx # From components/organisms/RouteError
+│ │ └── RouteError.scss
+│ └── index.ts
+│
+├── widgets/ # Widgets layer - large independent blocks
+│ ├── header/
+│ │ ├── ui/
+│ │ │ ├── Header.tsx # From components/organisms/Header
+│ │ │ └── Header.scss
+│ │ └── index.ts
+│ └── page-layout/
+│ ├── ui/
+│ │ ├── PageLayout.tsx # From components/templates/Layout
+│ │ └── PageLayout.scss
+│ └── index.ts
+│
+├── features/ # Features layer - user interactions & features
+│ ├── podcast-search/
+│ │ ├── ui/
+│ │ │ ├── PodcastSearch.tsx # From components/organisms/HeaderHomeSearch
+│ │ │ └── PodcastSearch.scss
+│ │ ├── model/
+│ │ │ └── usePodcastSearch.ts # Search logic extracted from usePodcasts hook
+│ │ └── index.ts
+│ └── podcast-list/
+│ ├── ui/
+│ │ ├── PodcastList.tsx # New wrapper combining grid + search
+│ │ └── PodcastList.scss
+│ ├── model/
+│ │ └── usePodcastList.ts # From hooks/usePodcasts.tsx
+│ └── index.ts
+│
+├── entities/ # Entities layer - business entities
+│ ├── podcast/
+│ │ ├── ui/
+│ │ │ ├── PodcastCard/
+│ │ │ │ ├── PodcastCard.tsx # From components/molecules/PodcastCard
+│ │ │ │ └── PodcastCard.scss
+│ │ │ ├── PodcastGrid/
+│ │ │ │ ├── PodcastGrid.tsx # From components/molecules/PodcastGrid
+│ │ │ │ └── PodcastGrid.scss
+│ │ │ ├── PodcastDetails/
+│ │ │ │ ├── PodcastDetails.tsx # From components/molecules/PodcastDetailDescription
+│ │ │ │ └── PodcastDetails.scss
+│ │ │ └── index.ts
+│ │ ├── model/
+│ │ │ ├── types.ts # Podcast types from types/types.ts
+│ │ │ ├── usePodcast.ts # From hooks/usePodcastDetail.tsx
+│ │ │ └── store.ts # Podcast-specific store slice
+│ │ ├── api/
+│ │ │ └── podcastApi.ts # From services/podcast.service.ts
+│ │ └── index.ts
+│ │
+│ └── episode/
+│ ├── ui/
+│ │ ├── EpisodesTable/
+│ │ │ ├── EpisodesTable.tsx # From components/molecules/EpisodesTable
+│ │ │ └── EpisodesTable.scss
+│ │ └── index.ts
+│ ├── model/
+│ │ ├── types.ts # Episode types from types/types.ts
+│ │ └── useEpisode.ts # From hooks/useEpisode.tsx
+│ └── index.ts
+│
+└── shared/ # Shared layer - reusable code
+├── ui/ # UI kit components
+│ ├── Input/
+│ │ ├── Input.tsx # From components/atoms/Input
+│ │ └── Input.scss
+│ ├── Label/
+│ │ ├── Label.tsx # From components/atoms/Label
+│ │ └── Label.scss
+│ ├── NavLink/
+│ │ ├── NavLink.tsx # From components/atoms/NavLink
+│ │ └── NavLink.scss
+│ ├── TextHtml/
+│ │ ├── TextHtml.tsx # From components/atoms/TextHtml
+│ │ └── TextHtml.scss
+│ └── index.ts
+│
+├── api/
+│ ├── client.ts # From services/api.client.ts
+│ ├── config.ts # From config/api.config.ts
+│ └── types.ts # ApiError and common API types
+│
+├── lib/
+│ └── utils/
+│ ├── date.ts # Date utilities from utils/utils.ts
+│ ├── storage.ts # StorageService from AppContext
+│ └── format.ts # formatMillisecondsToTime, etc.
+│
+├── config/
+│ └── constants.ts # App-wide constants
+│
+└── types/
+└── common.ts # Shared types that don't belong to entities
+
 ---
 
 ## Prerequisites
@@ -20,15 +154,16 @@ npm install -D @feature-sliced/eslint-config
 ```
 
 **Update `eslint.config.ts`**:
+
 ```typescript
-import fsd from '@feature-sliced/eslint-config';
+import fsd from "@feature-sliced/eslint-config";
 
 export default tseslint.config([
   // ... existing config
   {
     files: ["src/**/*.{ts,tsx}"],
     ...fsd.configs.recommended,
-  }
+  },
 ]);
 ```
 
@@ -53,20 +188,24 @@ git commit -m "chore: FSD migration - Phase X complete"
 ## Migration Phases
 
 ### Phase 0: Preparation (Foundation)
+
 **Goal**: Set up FSD structure without breaking existing code
 
 **Tasks**:
+
 1. Create new FSD directory structure (empty folders)
 2. Update TypeScript path aliases in `vite.config.ts` and `vitest.config.ts`
 3. Create index barrel exports for each layer
 4. Document layer responsibilities
 
 **Files to modify**:
+
 - `vite.config.ts`
 - `vitest.config.ts`
 - `tsconfig.json`
 
 **New structure**:
+
 ```
 src/
 ├── app/
@@ -78,6 +217,7 @@ src/
 ```
 
 **Updated `vite.config.ts` aliases**:
+
 ```typescript
 resolve: {
   alias: {
@@ -99,6 +239,7 @@ resolve: {
 ```
 
 **Validation**:
+
 - [ ] All folders created
 - [ ] TypeScript recognizes new path aliases
 - [ ] Build still works
@@ -107,6 +248,7 @@ resolve: {
 ---
 
 ### Phase 1: Shared Layer Migration
+
 **Goal**: Move all reusable, non-business code to `shared/`
 
 **Priority**: High (foundation for other layers)
@@ -114,6 +256,7 @@ resolve: {
 #### 1.1 Migrate Shared UI Components (Atoms)
 
 **Source → Destination**:
+
 ```
 src/components/atoms/Input/      → src/shared/ui/Input/
 src/components/atoms/Label/      → src/shared/ui/Label/
@@ -122,19 +265,21 @@ src/components/atoms/TextHtml/   → src/shared/ui/TextHtml/
 ```
 
 **Steps**:
+
 1. Copy files to new locations
 2. Create `src/shared/ui/index.ts` barrel export:
    ```typescript
-   export { Input } from './Input/Input';
-   export { Label } from './Label/Label';
-   export { NavLink } from './NavLink/NavLink';
-   export { TextHtml } from './TextHtml/TextHtml';
+   export { Input } from "./Input/Input";
+   export { Label } from "./Label/Label";
+   export { NavLink } from "./NavLink/NavLink";
+   export { TextHtml } from "./TextHtml/TextHtml";
    ```
 3. Update imports in consuming components to use `@shared/ui`
 4. Run tests to verify nothing broke
 5. Delete old files once all imports updated
 
 **Commands**:
+
 ```bash
 # Create structure
 mkdir -p src/shared/ui/{Input,Label,NavLink,TextHtml}
@@ -149,6 +294,7 @@ grep -r "components/atoms/Input" src/
 #### 1.2 Migrate API Layer
 
 **Source → Destination**:
+
 ```
 src/services/api.client.ts       → src/shared/api/client.ts
 src/config/api.config.ts         → src/shared/api/config.ts
@@ -156,22 +302,24 @@ src/types/types.ts (ApiError)    → src/shared/api/types.ts
 ```
 
 **Steps**:
+
 1. Create `src/shared/api/` directory
 2. Move `api.client.ts` and rename to `client.ts`
 3. Move `api.config.ts` and rename to `config.ts`
 4. Extract `ApiError` type to `src/shared/api/types.ts`
 5. Create `src/shared/api/index.ts`:
    ```typescript
-   export { HttpClient, httpClient } from './client';
-   export type { IHttpClient, RequestOptions } from './client';
-   export { API_BASE_URLS, API_ENDPOINTS, buildApiUrl } from './config';
-   export type { ApiError } from './types';
+   export { HttpClient, httpClient } from "./client";
+   export type { IHttpClient, RequestOptions } from "./client";
+   export { API_BASE_URLS, API_ENDPOINTS, buildApiUrl } from "./config";
+   export type { ApiError } from "./types";
    ```
 6. Update all imports to use `@shared/api`
 
 #### 1.3 Migrate Utilities
 
 **Source → Destination**:
+
 ```
 src/utils/utils.ts (formatMillisecondsToTime) → src/shared/lib/format.ts
 src/utils/utils.ts (isStale)                  → src/shared/lib/date.ts
@@ -179,6 +327,7 @@ src/context/AppContext.tsx (StorageService)   → src/shared/lib/storage.ts
 ```
 
 **Steps**:
+
 1. Create `src/shared/lib/` directory
 2. Split `utils.ts` into focused modules:
    - `format.ts` - formatting functions
@@ -188,6 +337,7 @@ src/context/AppContext.tsx (StorageService)   → src/shared/lib/storage.ts
 5. Update imports
 
 **Example `src/shared/lib/storage.ts`**:
+
 ```typescript
 export class StorageService {
   private static readonly STORAGE_KEY = "podcast-app-state";
@@ -222,6 +372,7 @@ export class StorageService {
 ```
 
 **Validation**:
+
 - [ ] All shared UI components migrated and working
 - [ ] API client migrated, services still functional
 - [ ] Utilities migrated and accessible
@@ -231,6 +382,7 @@ export class StorageService {
 ---
 
 ### Phase 2: Entities Layer Migration
+
 **Goal**: Extract business entities (podcast, episode) with their data, types, and UI
 
 **Priority**: High (foundation for features and pages)
@@ -238,6 +390,7 @@ export class StorageService {
 #### 2.1 Migrate Podcast Entity
 
 **Source → Destination**:
+
 ```
 src/components/molecules/PodcastCard/              → src/entities/podcast/ui/PodcastCard/
 src/components/molecules/PodcastGrid/              → src/entities/podcast/ui/PodcastGrid/
@@ -247,6 +400,7 @@ src/types/types.ts (Podcast types)                 → src/entities/podcast/mode
 ```
 
 **Directory structure**:
+
 ```
 src/entities/podcast/
 ├── ui/
@@ -270,6 +424,7 @@ src/entities/podcast/
 **Steps**:
 
 1. **Create types file** (`src/entities/podcast/model/types.ts`):
+
    ```typescript
    export type Podcast = {
      id: string;
@@ -292,28 +447,31 @@ src/entities/podcast/
    ```
 
 2. **Move API service** (`src/entities/podcast/api/podcastApi.ts`):
+
    - Copy `podcast.service.ts`
    - Update imports to use `@shared/api` and `@entities/podcast/model`
    - Keep interface-based design
 
 3. **Move UI components**:
+
    - Copy each component to new location
    - Update internal imports
    - Keep component logic unchanged
 
 4. **Create barrel export** (`src/entities/podcast/index.ts`):
+
    ```typescript
    // Types
-   export type { Podcast, PodcastDetails, PodcastEntry } from './model/types';
+   export type { Podcast, PodcastDetails, PodcastEntry } from "./model/types";
 
    // API
-   export { PodcastService, podcastService } from './api/podcastApi';
-   export type { IPodcastService } from './api/podcastApi';
+   export { PodcastService, podcastService } from "./api/podcastApi";
+   export type { IPodcastService } from "./api/podcastApi";
 
    // UI
-   export { PodcastCard } from './ui/PodcastCard/PodcastCard';
-   export { PodcastGrid } from './ui/PodcastGrid/PodcastGrid';
-   export { PodcastDetails } from './ui/PodcastDetails/PodcastDetails';
+   export { PodcastCard } from "./ui/PodcastCard/PodcastCard";
+   export { PodcastGrid } from "./ui/PodcastGrid/PodcastGrid";
+   export { PodcastDetails } from "./ui/PodcastDetails/PodcastDetails";
    ```
 
 5. **Update imports across codebase**:
@@ -327,6 +485,7 @@ src/entities/podcast/
 #### 2.2 Migrate Episode Entity
 
 **Source → Destination**:
+
 ```
 src/components/molecules/EpisodesTable/ → src/entities/episode/ui/EpisodesTable/
 src/types/types.ts (Episode types)      → src/entities/episode/model/types.ts
@@ -334,6 +493,7 @@ src/hooks/useEpisode.tsx                → src/entities/episode/model/useEpisod
 ```
 
 **Directory structure**:
+
 ```
 src/entities/episode/
 ├── ui/
@@ -347,6 +507,7 @@ src/entities/episode/
 ```
 
 **Steps**:
+
 1. Create types file with Episode-related types
 2. Move `EpisodesTable` component
 3. Move `useEpisode` hook to `model/`
@@ -354,6 +515,7 @@ src/entities/episode/
 5. Update imports
 
 **Validation**:
+
 - [ ] Podcast entity fully migrated
 - [ ] Episode entity fully migrated
 - [ ] All entity components render correctly
@@ -363,6 +525,7 @@ src/entities/episode/
 ---
 
 ### Phase 3: Features Layer Migration
+
 **Goal**: Extract user-facing features (search, filtering, etc.)
 
 **Priority**: Medium
@@ -370,12 +533,14 @@ src/entities/episode/
 #### 3.1 Migrate Podcast Search Feature
 
 **Source → Destination**:
+
 ```
 src/components/organisms/HeaderHomeSearch/ → src/features/podcast-search/ui/PodcastSearch/
 src/hooks/usePodcasts.tsx (search logic)   → src/features/podcast-search/model/usePodcastSearch.ts
 ```
 
 **Directory structure**:
+
 ```
 src/features/podcast-search/
 ├── ui/
@@ -389,10 +554,11 @@ src/features/podcast-search/
 **Steps**:
 
 1. **Extract search logic** from `usePodcasts.tsx`:
+
    ```typescript
    // src/features/podcast-search/model/usePodcastSearch.ts
-   import { useMemo, useState } from 'react';
-   import type { Podcast } from '@entities/podcast';
+   import { useMemo, useState } from "react";
+   import type { Podcast } from "@entities/podcast";
 
    type UsePodcastSearchReturn = {
      searchTerm: string;
@@ -431,6 +597,7 @@ src/features/podcast-search/
    ```
 
 2. **Move UI component**:
+
    - Rename `HeaderHomeSearch` → `PodcastSearch`
    - Update to use new hook
 
@@ -439,6 +606,7 @@ src/features/podcast-search/
 4. **Update consuming pages** (HomePage)
 
 **Validation**:
+
 - [ ] Search feature works correctly
 - [ ] Filtering logic unchanged
 - [ ] Performance is the same (memoization still working)
@@ -446,6 +614,7 @@ src/features/podcast-search/
 ---
 
 ### Phase 4: Widgets Layer Migration
+
 **Goal**: Move large layout blocks and composite sections
 
 **Priority**: Medium
@@ -453,12 +622,14 @@ src/features/podcast-search/
 #### 4.1 Migrate Header Widget
 
 **Source → Destination**:
+
 ```
 src/components/organisms/Header/    → src/widgets/header/ui/Header/
 src/components/templates/Layout/    → src/widgets/page-layout/ui/PageLayout/
 ```
 
 **Directory structure**:
+
 ```
 src/widgets/
 ├── header/
@@ -474,12 +645,14 @@ src/widgets/
 ```
 
 **Steps**:
+
 1. Move Header component
 2. Move Layout component, rename to PageLayout
 3. Update imports in pages
 4. Create barrel exports
 
 **Validation**:
+
 - [ ] Header renders correctly
 - [ ] Layout structure unchanged
 - [ ] Navigation still works
@@ -487,6 +660,7 @@ src/widgets/
 ---
 
 ### Phase 5: Pages Layer Migration
+
 **Goal**: Move route-level page components
 
 **Priority**: Medium
@@ -494,6 +668,7 @@ src/widgets/
 #### 5.1 Migrate All Pages
 
 **Source → Destination**:
+
 ```
 src/pages/HomePage/     → src/pages/home/ui/HomePage.tsx
 src/pages/PodcastPage/  → src/pages/podcast-detail/ui/PodcastPage.tsx
@@ -501,6 +676,7 @@ src/pages/EpisodePage/  → src/pages/episode-detail/ui/EpisodePage.tsx
 ```
 
 **Directory structure**:
+
 ```
 src/pages/
 ├── home/
@@ -526,6 +702,7 @@ src/pages/
 ```
 
 **Steps**:
+
 1. Create page directories
 2. Move page components
 3. Update page imports to use new FSD paths:
@@ -536,12 +713,13 @@ src/pages/
 5. Create barrel exports
 
 **Example updated HomePage**:
+
 ```typescript
 // src/pages/home/ui/HomePage.tsx
-import { PodcastGrid } from '@entities/podcast';
-import { PodcastSearch } from '@features/podcast-search';
-import { PageLayout } from '@widgets/page-layout';
-import { usePodcasts } from './model/usePodcasts'; // or keep in a hook location
+import { PodcastGrid } from "@entities/podcast";
+import { PodcastSearch } from "@features/podcast-search";
+import { PageLayout } from "@widgets/page-layout";
+import { usePodcasts } from "./model/usePodcasts"; // or keep in a hook location
 
 export default function HomePage(): React.ReactElement {
   const { podcasts, isLoading, error, filteredCount, onSearch } = usePodcasts();
@@ -560,6 +738,7 @@ export default function HomePage(): React.ReactElement {
 ```
 
 **Validation**:
+
 - [ ] All pages render correctly
 - [ ] Routing works
 - [ ] Data fetching works
@@ -568,6 +747,7 @@ export default function HomePage(): React.ReactElement {
 ---
 
 ### Phase 6: App Layer Migration
+
 **Goal**: Move app initialization, providers, and routing to `app/`
 
 **Priority**: High (final core piece)
@@ -575,12 +755,14 @@ export default function HomePage(): React.ReactElement {
 #### 6.1 Migrate Providers
 
 **Source → Destination**:
+
 ```
 src/context/AppContext.tsx        → src/app/providers/AppProvider.tsx
 src/context/NavigationContext.tsx → src/app/providers/NavigationProvider.tsx
 ```
 
 **Directory structure**:
+
 ```
 src/app/
 ├── providers/
@@ -602,34 +784,36 @@ src/app/
 **Steps**:
 
 1. **Move and refactor AppProvider**:
+
    - Move to `src/app/providers/AppProvider.tsx`
    - Import `StorageService` from `@shared/lib/storage`
    - Update type imports from entities
 
 2. **Create provider composition** (`src/app/providers/index.tsx`):
+
    ```typescript
-   import { AppProvider } from './AppProvider';
-   import { NavigationProvider } from './NavigationProvider';
+   import { AppProvider } from "./AppProvider";
+   import { NavigationProvider } from "./NavigationProvider";
 
    export function AppProviders({ children }: { children: React.ReactNode }) {
      return (
        <AppProvider>
-         <NavigationProvider>
-           {children}
-         </NavigationProvider>
+         <NavigationProvider>{children}</NavigationProvider>
        </AppProvider>
      );
    }
 
-   export { useAppContext } from './AppProvider';
-   export { useNavigationContext } from './NavigationProvider';
+   export { useAppContext } from "./AppProvider";
+   export { useNavigationContext } from "./NavigationProvider";
    ```
 
 3. **Move router**:
+
    - Move `src/router/routes.tsx` → `src/app/router/routes.tsx`
    - Update page imports to use `@pages/*`
 
 4. **Move main.tsx**:
+
    - Rename `src/main.tsx` → `src/app/index.tsx`
    - Update imports
    - Simplify to use composed providers
@@ -639,15 +823,16 @@ src/app/
    - Update import in `index.tsx`
 
 **Example `src/app/index.tsx`**:
-```typescript
-import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
-import { RouterProvider } from 'react-router';
-import { AppProviders } from './providers';
-import { router } from './router';
-import './styles/index.scss';
 
-createRoot(document.getElementById('root')!).render(
+```typescript
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import { RouterProvider } from "react-router";
+import { AppProviders } from "./providers";
+import { router } from "./router";
+import "./styles/index.scss";
+
+createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <AppProviders>
       <RouterProvider router={router} />
@@ -657,6 +842,7 @@ createRoot(document.getElementById('root')!).render(
 ```
 
 **Validation**:
+
 - [ ] App initializes correctly
 - [ ] All providers work
 - [ ] Routing works
@@ -666,6 +852,7 @@ createRoot(document.getElementById('root')!).render(
 ---
 
 ### Phase 7: State Management Refactor (Optional Advanced)
+
 **Goal**: Split monolithic AppContext into entity-specific state slices
 
 **Priority**: Low (optional optimization)
@@ -677,11 +864,13 @@ createRoot(document.getElementById('root')!).render(
 **Options**:
 
 **Option A: Keep centralized state** (Recommended for now)
+
 - Keep AppContext in `app/providers/`
 - Minimal changes required
 - Good enough for current app size
 
 **Option B: Distributed state** (Future enhancement)
+
 - Create `entities/podcast/model/store.ts`
 - Create `entities/episode/model/store.ts`
 - Use Zustand, Jotai, or plain Context per entity
@@ -691,10 +880,10 @@ createRoot(document.getElementById('root')!).render(
 
 ```typescript
 // src/entities/podcast/model/store.ts
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import type { Podcast } from './types';
-import { podcastService } from '../api/podcastApi';
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
+import type { Podcast } from "./types";
+import { podcastService } from "../api/podcastApi";
 
 type PodcastStore = {
   podcasts: Podcast[];
@@ -731,11 +920,11 @@ export const usePodcastStore = create<PodcastStore>()(
       },
 
       getPodcastById: (id: string) => {
-        return get().podcasts.find(p => p.id === id);
+        return get().podcasts.find((p) => p.id === id);
       },
     }),
     {
-      name: 'podcast-store',
+      name: "podcast-store",
       partialize: (state) => ({
         podcasts: state.podcasts,
         lastUpdated: state.lastUpdated,
@@ -750,6 +939,7 @@ export const usePodcastStore = create<PodcastStore>()(
 ---
 
 ### Phase 8: Cleanup & Optimization
+
 **Goal**: Remove old structure, optimize imports, enforce FSD rules
 
 **Priority**: High (final step)
@@ -757,6 +947,7 @@ export const usePodcastStore = create<PodcastStore>()(
 #### 8.1 Remove Old Structure
 
 **Steps**:
+
 1. Verify all imports updated to FSD paths
 2. Remove old directories:
    ```bash
@@ -790,8 +981,9 @@ export const usePodcastStore = create<PodcastStore>()(
 #### 8.2 Enforce FSD Rules
 
 **Add ESLint rules** to `eslint.config.ts`:
+
 ```typescript
-import fsd from '@feature-sliced/eslint-config';
+import fsd from "@feature-sliced/eslint-config";
 
 export default tseslint.config([
   // ... existing config
@@ -800,15 +992,16 @@ export default tseslint.config([
     extends: [fsd.configs.recommended],
     rules: {
       // Enforce strict layer boundaries
-      '@feature-sliced/layers-slices': 'error',
-      '@feature-sliced/absolute-relative': 'error',
-      '@feature-sliced/public-api': 'error',
+      "@feature-sliced/layers-slices": "error",
+      "@feature-sliced/absolute-relative": "error",
+      "@feature-sliced/public-api": "error",
     },
-  }
+  },
 ]);
 ```
 
 **FSD Import Rules**:
+
 - ✅ `app/` can import from: `pages/`, `widgets/`, `features/`, `entities/`, `shared/`
 - ✅ `pages/` can import from: `widgets/`, `features/`, `entities/`, `shared/`
 - ✅ `widgets/` can import from: `features/`, `entities/`, `shared/`
@@ -820,12 +1013,15 @@ export default tseslint.config([
 #### 8.3 Update Documentation
 
 **Files to update**:
+
 1. **README.md**:
+
    - Update "Estructura de directorios" section
    - Explain FSD architecture
    - Update component examples
 
 2. **CLAUDE.md**:
+
    - Update "Architecture Overview" section
    - Document FSD layers
    - Update import patterns
@@ -839,12 +1035,14 @@ export default tseslint.config([
 #### 8.4 Update Tests
 
 **Steps**:
+
 1. Ensure test files moved with their source files
 2. Update test imports to use FSD paths
 3. Verify coverage still works
 4. Update `vitest.config.ts` if needed
 
 **Run full test suite**:
+
 ```bash
 npm test
 npm run test:coverage
@@ -852,6 +1050,7 @@ npm run test:e2e
 ```
 
 **Validation**:
+
 - [ ] Old directories removed
 - [ ] All imports use FSD paths
 - [ ] ESLint FSD rules passing
@@ -868,17 +1067,20 @@ npm run test:e2e
 ### After Each Phase
 
 **Unit Tests**:
+
 ```bash
 npm test                 # Run all unit tests
 npm run test:coverage    # Verify coverage maintained
 ```
 
 **E2E Tests**:
+
 ```bash
 npm run test:e2e         # Verify user flows still work
 ```
 
 **Manual Testing Checklist**:
+
 - [ ] Homepage loads and displays 100 podcasts
 - [ ] Search/filter works
 - [ ] Click podcast card navigates to detail page
@@ -892,11 +1094,13 @@ npm run test:e2e         # Verify user flows still work
 - [ ] Data refreshes after 24 hours
 
 **Linting**:
+
 ```bash
 npm run lint             # Verify no linting errors
 ```
 
 **Build Verification**:
+
 ```bash
 npm run build            # Production build succeeds
 npm run preview          # Production build works locally
@@ -909,6 +1113,7 @@ npm run preview          # Production build works locally
 ### If Issues Arise
 
 **Option 1: Revert Specific Phase**
+
 ```bash
 # Revert to previous phase checkpoint
 git log --oneline | grep "FSD migration"
@@ -916,11 +1121,13 @@ git reset --hard <commit-hash>
 ```
 
 **Option 2: Gradual Rollback**
+
 - Keep old imports working temporarily
 - Fix issues in new structure
 - Re-migrate once fixed
 
 **Option 3: Feature Flag**
+
 - Use environment variable to toggle between old/new structure
 - Requires more complex setup but allows A/B testing
 
@@ -929,6 +1136,7 @@ git reset --hard <commit-hash>
 ## Success Criteria
 
 ### Technical Metrics
+
 - [ ] All tests passing (100% of original tests)
 - [ ] Test coverage maintained or improved (current: check with `npm run test:coverage`)
 - [ ] Build size same or smaller
@@ -937,6 +1145,7 @@ git reset --hard <commit-hash>
 - [ ] TypeScript compilation with no errors
 
 ### Code Quality Metrics
+
 - [ ] All imports follow FSD layer rules
 - [ ] No circular dependencies
 - [ ] Clear separation of concerns
@@ -944,6 +1153,7 @@ git reset --hard <commit-hash>
 - [ ] Documentation updated
 
 ### Functional Metrics
+
 - [ ] All user flows working
 - [ ] Performance maintained (use Lighthouse)
 - [ ] LocalStorage persistence working
@@ -955,16 +1165,19 @@ git reset --hard <commit-hash>
 ## Post-Migration Tasks
 
 ### 1. Team Onboarding
+
 - Conduct FSD architecture walkthrough
 - Update onboarding documentation
 - Create "Where to put code" guide
 
 ### 2. CI/CD Updates
+
 - Update build scripts if needed
 - Update deployment documentation
 - Verify Netlify deployment still works
 
 ### 3. Future Improvements
+
 - Consider distributed state management (Phase 7 Option B)
 - Add more features following FSD pattern
 - Create component library from `shared/ui`
@@ -975,12 +1188,15 @@ git reset --hard <commit-hash>
 ## Timeline Dependencies
 
 **Sequential Phases** (must be done in order):
+
 1. Phase 0 → Phase 1 → Phase 2 → Phase 3/4/5 (parallel) → Phase 6 → Phase 8
 
 **Parallel Phases** (can be done simultaneously):
+
 - Phase 3 (Features) + Phase 4 (Widgets) + Phase 5 (Pages)
 
 **Optional Phase**:
+
 - Phase 7 (State refactor) - can be done later
 
 **Critical Path**:
@@ -993,30 +1209,36 @@ Phase 0 → Phase 1 → Phase 2 → (Phase 3/4/5) → Phase 6 → Phase 8
 ### High Risk Areas
 
 **1. AppContext Refactoring**
+
 - **Risk**: Breaking state management
 - **Mitigation**: Extensive testing after Phase 6, keep logic identical initially
 
 **2. Import Path Updates**
+
 - **Risk**: Missing imports causing runtime errors
 - **Mitigation**: Use TypeScript, run tests frequently, use find-replace carefully
 
 **3. Test File Relocation**
+
 - **Risk**: Breaking test suite
 - **Mitigation**: Move tests with source files, update imports immediately
 
 ### Medium Risk Areas
 
 **1. Router Configuration**
+
 - **Risk**: Breaking navigation
 - **Mitigation**: Test all routes after Phase 6
 
 **2. CSS/SCSS Imports**
+
 - **Risk**: Styles not loading
 - **Mitigation**: Verify styles after moving each component
 
 ### Low Risk Areas
 
 **1. Documentation Updates**
+
 - **Risk**: Outdated docs
 - **Mitigation**: Update docs in Phase 8
 
