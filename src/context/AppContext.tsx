@@ -1,3 +1,6 @@
+import { podcastRepository } from "application/di/dependencies";
+import { getPodcastDetails } from "domain/usecases/get-podcast-details.usecase";
+import { getPodcasts } from "domain/usecases/get-podcasts.usecase";
 import React, {
   createContext,
   useCallback,
@@ -7,7 +10,6 @@ import React, {
   useReducer,
   type ReactNode,
 } from "react";
-import { podcastService } from "services/podcast.service";
 import type { ApiError, Podcast, PodcastDetails } from "types/types";
 import { isStale } from "utils/utils";
 
@@ -164,7 +166,7 @@ export function AppProvider({
       dispatch({ type: "SET_LOADING", payload: true });
       dispatch({ type: "SET_ERROR", payload: null });
 
-      const podcasts = await podcastService.getListPodcasts();
+      const podcasts = await getPodcasts(podcastRepository);
 
       dispatch({ type: "SET_PODCASTS", payload: podcasts });
     } catch (error) {
@@ -201,13 +203,14 @@ export function AppProvider({
         dispatch({ type: "SET_LOADING", payload: true });
         dispatch({ type: "SET_ERROR", payload: null });
 
-        const podcastDetail = await podcastService.getPodcastDetails(podcastId);
-        if (podcastDetail) {
-          dispatch({
-            type: "SET_PODCAST_DETAILS",
-            payload: { id: podcastId, details: podcastDetail },
-          });
-        }
+        const podcastDetail = await getPodcastDetails(
+          podcastRepository,
+          podcastId
+        );
+        dispatch({
+          type: "SET_PODCAST_DETAILS",
+          payload: { id: podcastId, details: podcastDetail },
+        });
       } catch (error) {
         dispatch({
           type: "SET_ERROR",
@@ -245,6 +248,7 @@ export function AppProvider({
   );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useAppContext(): AppContextType {
   const context = useContext(AppContext);
 

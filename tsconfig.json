@@ -7,7 +7,12 @@
       "services/*": ["services/*"],
       "context/*": ["context/*"],
       "pages/*": ["pages/*"],
-      "router/*": ["router/*"]
+      "router/*": ["router/*"],
+      "domain/*": ["domain/*"],
+      "infrastructure/*": ["infrastructure/*"],
+      "application/*": ["application/*"],
+      "presentation/*": ["presentation/*"],
+      "shared/*": ["shared/*"]
     }
   },
   "files": [],

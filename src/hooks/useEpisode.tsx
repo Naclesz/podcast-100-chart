@@ -1,5 +1,7 @@
 import { useAppContext } from "context/AppContext";
+import { useMemo } from "react";
 import type { Episode, Podcast } from "types/types";
+import { getEpisode } from "domain/usecases/get-episode.usecase";
 
 type UseEpisodeState = {
   podcast: Podcast;
@@ -11,11 +13,14 @@ export const useEpisode = (
   episodeId: string
 ): UseEpisodeState => {
   const { state } = useAppContext();
-  const podcast = state.podcasts.find((podcast) => podcast.id === podcastId);
 
-  const episode = podcast?.details.episodes.find(
-    (episode) => episode.id === Number(episodeId)
+  const result = useMemo(
+    () => getEpisode(state.podcasts, podcastId, episodeId),
+    [state.podcasts, podcastId, episodeId]
   );
 
-  return { podcast: podcast as Podcast, episode: episode as Episode };
+  return {
+    podcast: result.podcast as Podcast,
+    episode: result.episode as Episode,
+  };
 };

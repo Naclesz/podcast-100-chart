@@ -1,6 +1,7 @@
 import { useAppContext } from "context/AppContext";
 import { useEffect, useMemo, useState } from "react";
 import type { ApiError, Podcast } from "types/types";
+import { filterPodcasts } from "domain/usecases/filter-podcasts.usecase";
 
 type UsePodcastsState = {
   podcasts: Podcast[];
@@ -16,14 +17,7 @@ export const usePodcasts = (): UsePodcastsState => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const filteredPodcasts = useMemo(() => {
-    if (!searchTerm.trim()) return state.podcasts;
-
-    const normalizedSearchTerm = searchTerm.toLowerCase();
-    return state.podcasts.filter(
-      (podcast) =>
-        podcast.title.toLowerCase().includes(normalizedSearchTerm) ||
-        podcast.author.toLowerCase().includes(normalizedSearchTerm)
-    );
+    return filterPodcasts(state.podcasts, searchTerm);
   }, [state.podcasts, searchTerm]);
 
   useEffect(() => {

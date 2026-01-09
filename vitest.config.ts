@@ -40,6 +40,11 @@ export default defineConfig({
       config: "/src/config",
       types: "/src/types",
       utils: "/src/utils",
+      domain: "/src/domain",
+      infrastructure: "/src/infrastructure",
+      application: "/src/application",
+      presentation: "/src/presentation",
+      shared: "/src/shared",
     },
   },
 });
