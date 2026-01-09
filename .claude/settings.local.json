@@ -6,7 +6,8 @@
       "Bash(mkdir:*)",
       "Bash(npm run build:*)",
       "Bash(npm test:*)",
-      "Bash(git mv:*)"
+      "Bash(git mv:*)",
+      "Bash(git add:*)"
     ]
   }
 }

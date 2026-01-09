@@ -158,23 +158,91 @@ npm run test:e2e
 
 ## 📂 Estructura de directorios
 
-- **services/** Contiene la lógica de acceso a datos y reglas de negocio.
-- **context/** Define dependencias globales con React Context.
-- **hooks/** Encapsulan lógica reutilizable de React (datos + estado).
-- **components/** Componentes de UI reutilizables y presentacionales.
-- **pages/** Vistas principales que representan rutas de la aplicación.
-- **router/** Configuración de navegación con React Router.
-- **styles/** Con ficheros parciales para variables, mixins, placeholders y estilos globales.
+La aplicación sigue una **arquitectura hexagonal (puertos y adaptadores)** con programación funcional y principios SOLID:
 
-## 🎯 Principios SOLID Aplicados
+### Estructura de Capas
 
-- **Single responsability:**
+- **domain/** - Lógica de negocio pura (independiente del framework)
+  - `models/` - Entidades del dominio (Podcast, Episode, etc.)
+  - `repositories/` - Interfaces de repositorios (PUERTOS)
+  - `usecases/` - Funciones puras con lógica de negocio
 
-  - `api.config.ts` solo contiene configuración de endpoints
-  - `api.client.ts` solo construye un cliente http genérico
-  - `podcast.service.ts` solo gestiona la lógica de podcasts
+- **infrastructure/** - Implementaciones de sistemas externos (ADAPTADORES)
+  - `adapters/` - Implementaciones de repositorios (HTTP, localStorage)
+  - `http/` - Cliente HTTP genérico
+  - `mappers/` - Transformadores de datos externos → modelos de dominio
+  - `dto/` - Tipos de respuesta de APIs externas
 
-- **Open/Closed:**
+- **application/** - Capa de orquestación específica de React
+  - `context/` - Gestión de estado global (React Context + useReducer)
+  - `hooks/` - Custom hooks que orquestan usecases del dominio
+  - `di/` - Inyección de dependencias (composition root)
 
-  - Facilidad para agregar nuevo endpoints sin tener que hacer modificaciones en el código existente
-  - El cliente http genérico se puede extender para dar soporte a otro tipo de servicios (POST, PUT, etc)
+- **presentation/** - Capa de interfaz de usuario
+  - `components/` - Componentes React (Atomic Design: atoms, molecules, organisms, templates)
+  - `pages/` - Vistas principales que representan rutas
+  - `router/` - Configuración de navegación con React Router
+
+- **shared/** - Utilidades y configuración compartida
+  - `config/` - Configuración de API y endpoints
+  - `utils/` - Funciones de utilidad puras
+  - `constants/` - Constantes de la aplicación
+
+- **styles/** - Estilos globales SCSS con variables, mixins y placeholders
+
+## 🎯 Principios SOLID y Arquitectura Hexagonal
+
+La aplicación implementa **Hexagonal Architecture (Ports & Adapters)** que naturalmente cumple con los principios SOLID:
+
+### Single Responsibility Principle (SRP)
+Cada capa tiene una única responsabilidad:
+- **Domain**: Solo contiene lógica de negocio pura
+  - `get-podcasts.usecase.ts` - Solo obtiene podcasts
+  - `filter-podcasts.usecase.ts` - Solo filtra podcasts
+- **Infrastructure**: Solo implementa acceso a sistemas externos
+  - `http-client.ts` - Solo maneja comunicación HTTP
+  - `podcast.mapper.ts` - Solo transforma datos de API → dominio
+- **Application**: Solo orquesta usecases con React
+  - `usePodcasts.tsx` - Solo conecta React con usecases de podcasts
+- **Presentation**: Solo renderiza UI
+  - `PodcastCard.tsx` - Solo muestra una tarjeta de podcast
+
+### Open/Closed Principle (OCP)
+Abierto para extensión, cerrado para modificación:
+- Se pueden agregar nuevas implementaciones de repositorios sin modificar el dominio
+- Ejemplo: `CachedPodcastRepository` puede decorar `HttpPodcastRepository` sin cambiar código existente
+- Nuevos usecases se agregan sin modificar usecases existentes
+- El cliente HTTP se puede extender para soportar POST, PUT, etc. sin modificar el existente
+
+### Liskov Substitution Principle (LSP)
+Las implementaciones son intercambiables:
+- Cualquier clase que implemente `IPodcastRepository` puede usarse en lugar de otra
+- `HttpPodcastRepository` y `MockPodcastRepository` (para tests) son intercambiables
+- El dominio funciona con cualquier implementación que cumpla el contrato
+
+### Interface Segregation Principle (ISP)
+Interfaces específicas y pequeñas:
+- `IPodcastRepository` - Solo métodos relacionados con podcasts
+- `IStorageRepository` - Solo métodos relacionados con almacenamiento
+- `IHttpClient` - Solo método `get` (se puede extender según necesidad)
+
+### Dependency Inversion Principle (DIP)
+Las dependencias apuntan hacia abstracciones:
+- El **dominio** define interfaces (`IPodcastRepository`)
+- La **infraestructura** implementa esas interfaces
+- La **aplicación** depende del dominio, no de la infraestructura
+- Inyección de dependencias en `application/di/dependencies.ts`
+
+```
+Flujo de dependencias:
+Presentation → Application → Domain ← Infrastructure
+                               ↑
+                          (Interfaces)
+```
+
+### Beneficios de esta arquitectura:
+
+1. **Testabilidad**: La lógica de negocio es pura, fácil de testear sin mocks
+2. **Mantenibilidad**: Cada capa tiene responsabilidades claras
+3. **Flexibilidad**: Se puede cambiar la infraestructura (HTTP por GraphQL) sin tocar el dominio
+4. **Escalabilidad**: Fácil agregar nuevas features siguiendo el mismo patrón
