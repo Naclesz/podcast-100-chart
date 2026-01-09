@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { HttpClient } from "./api.client";
+import { HttpClient } from "./http-client";
 
 describe("HttpClient", () => {
   let httpClient: HttpClient;
@@ -17,7 +17,7 @@ describe("HttpClient", () => {
         json: vi.fn().mockResolvedValue(mockData),
       };
 
-      globalThis.fetch = vi.fn().mockResolvedValue(mockResponse) as any;
+      globalThis.fetch = vi.fn().mockResolvedValue(mockResponse) as never;
 
       const result = await httpClient.get("https://api.example.com/data");
 
@@ -38,7 +38,7 @@ describe("HttpClient", () => {
         statusText: "Not Found",
       };
 
-      globalThis.fetch = vi.fn().mockResolvedValue(mockResponse) as any;
+      globalThis.fetch = vi.fn().mockResolvedValue(mockResponse) as never;
 
       await expect(
         httpClient.get("https://api.example.com/not-found")
@@ -52,7 +52,7 @@ describe("HttpClient", () => {
         statusText: "Internal Server Error",
       };
 
-      globalThis.fetch = vi.fn().mockResolvedValue(mockResponse) as any;
+      globalThis.fetch = vi.fn().mockResolvedValue(mockResponse) as never;
 
       await expect(
         httpClient.get("https://api.example.com/error")
