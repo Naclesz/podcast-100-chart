@@ -4,7 +4,7 @@ import { httpClient } from "infrastructure/http/http-client";
 import {
   buildListPodcastsUrl,
   buildPodcastDetailUrl,
-} from "config/api.config";
+} from "shared/config/api.config";
 import type { Podcast } from "domain/models/podcast.model";
 
 /**

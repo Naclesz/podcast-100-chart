@@ -13,7 +13,7 @@ export class HttpClient implements IHttpClient {
   private readonly defaultTimeout: number;
   private readonly defaultHeaders: Record<string, string>;
 
-  constructor(timeout: 10000, headers: Record<string, string> = {}) {
+  constructor(timeout = 10000, headers: Record<string, string> = {}) {
     this.defaultTimeout = timeout;
     this.defaultHeaders = headers;
   }

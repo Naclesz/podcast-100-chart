@@ -1,5 +1,5 @@
-import { API_CONFIG } from "config/api.config";
-import type { ApiError } from "types/types";
+import { API_CONFIG } from "shared/config/api.config";
+import type { ApiError } from "domain/models";
 
 export interface IHttpClient {
   get<T>(url: string, options?: RequestOptions): Promise<T>;

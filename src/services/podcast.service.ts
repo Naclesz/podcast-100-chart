@@ -1,14 +1,12 @@
-import { buildListPodcastsUrl, buildPodcastDetailUrl } from "config/api.config";
+import { buildListPodcastsUrl, buildPodcastDetailUrl } from "shared/config/api.config";
+import type { Episode, Podcast, PodcastDetails } from "domain/models";
 import type {
   DetailResponse,
-  Episode,
   EpisodeEntry,
   ListPodcastsResponse,
-  Podcast,
-  PodcastDetails,
   PodcastEntry,
-} from "types/types";
-import { formatMillisecondsToTime } from "utils/utils";
+} from "infrastructure/dto/itunes-api.dto";
+import { formatMillisecondsToTime } from "shared/utils/utils";
 import type { IHttpClient } from "./api.client";
 import { httpClient } from "./api.client";
 

@@ -1,6 +1,6 @@
 import type { Episode } from "domain/models/episode.model";
 import type { EpisodeEntry } from "../dto/itunes-api.dto";
-import { formatMillisecondsToTime } from "utils/utils";
+import { formatMillisecondsToTime } from "shared/utils/utils";
 
 /**
  * Maps an iTunes API EpisodeEntry to a domain Episode model.

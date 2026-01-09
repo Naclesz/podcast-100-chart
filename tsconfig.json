@@ -2,12 +2,7 @@
   "compilerOptions": {
     "baseUrl": "src",
     "paths": {
-      "components/*": ["components/*"],
-      "hooks/*": ["hooks/*"],
       "services/*": ["services/*"],
-      "context/*": ["context/*"],
-      "pages/*": ["pages/*"],
-      "router/*": ["router/*"],
       "domain/*": ["domain/*"],
       "infrastructure/*": ["infrastructure/*"],
       "application/*": ["application/*"],

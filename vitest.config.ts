@@ -31,12 +31,7 @@ export default defineConfig({
     alias: {
       "@": "/src",
       "@styles": "/src/styles",
-      components: "/src/components",
-      hooks: "/src/hooks",
       services: "/src/services",
-      context: "/src/context",
-      pages: "/src/pages",
-      router: "/src/router",
       config: "/src/config",
       types: "/src/types",
       utils: "/src/utils",
