@@ -1,7 +1,7 @@
+import { usePodcasts } from "application/hooks/usePodcasts";
 import PodcastGrid from "presentation/components/molecules/PodcastGrid/PodcastGrid";
 import HeaderHomeSearch from "presentation/components/organisms/HeaderHomeSearch/HeaderHomeSearch";
 import Layout from "presentation/components/templates/Layout/Layout";
-import { usePodcasts } from "application/hooks/usePodcasts";
 import { memo } from "react";
 import "./HomePage.scss";
 
@@ -12,6 +12,7 @@ const HomePage = memo(function HomePage(): React.ReactNode {
     error,
     filteredPodcastsCount,
     onFilterPodcasts,
+    onFavoriteToggle,
   } = usePodcasts();
 
   function renderPodcasts(): React.ReactNode {
@@ -21,7 +22,13 @@ const HomePage = memo(function HomePage(): React.ReactNode {
     if (podcasts.length === 0) {
       return <div className="home-page__empty">No podcasts found</div>;
     }
-    return <PodcastGrid podcasts={podcasts} isLoading={isLoading} />;
+    return (
+      <PodcastGrid
+        podcasts={podcasts}
+        isLoading={isLoading}
+        onFavoriteToggle={onFavoriteToggle}
+      />
+    );
   }
 
   return (

@@ -1,3 +1,4 @@
+import type { Podcast } from "domain/models/podcast.model";
 import { HttpPodcastRepository } from "infrastructure/adapters/http-podcast.repository";
 import { LocalStorageRepository } from "infrastructure/adapters/localstorage.repository";
 import { httpClient } from "infrastructure/http/http-client";
@@ -5,7 +6,6 @@ import {
   buildListPodcastsUrl,
   buildPodcastDetailUrl,
 } from "shared/config/api.config";
-import type { Podcast } from "domain/models/podcast.model";
 
 /**
  * Dependency Injection / Composition Root

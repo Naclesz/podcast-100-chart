@@ -1,6 +1,10 @@
 import { podcastRepository } from "application/di/dependencies";
-import { getPodcastDetails } from "domain/usecases/get-podcast-details.usecase";
-import { getPodcasts } from "domain/usecases/get-podcasts.usecase";
+import type { ApiError, Podcast, PodcastDetails } from "domain/models";
+import {
+  getPodcastDetails,
+  getPodcasts,
+  togglePodcastFavorite,
+} from "domain/usecases";
 import React, {
   createContext,
   useCallback,
@@ -10,7 +14,6 @@ import React, {
   useReducer,
   type ReactNode,
 } from "react";
-import type { ApiError, Podcast, PodcastDetails } from "domain/models";
 import { isStale } from "shared/utils/utils";
 
 type AppState = {
@@ -29,6 +32,7 @@ type AppAction =
       type: "SET_PODCAST_DETAILS";
       payload: { id: string; details: PodcastDetails };
     }
+  | { type: "TOGGLE_PODCAST_FAVORITE"; payload: { podcastId: string } }
   | { type: "HYDRATE_STATE"; payload: Partial<AppState> };
 
 type AppContextType = {
@@ -106,6 +110,15 @@ function appReducer(state: AppState, action: AppAction): AppState {
             : podcast
         ),
         isLoading: false,
+      };
+
+    case "TOGGLE_PODCAST_FAVORITE":
+      return {
+        ...state,
+        podcasts: togglePodcastFavorite(
+          state.podcasts,
+          action.payload.podcastId
+        ),
       };
 
     case "HYDRATE_STATE":

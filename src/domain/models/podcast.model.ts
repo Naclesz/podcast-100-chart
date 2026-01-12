@@ -8,6 +8,7 @@ export type Podcast = {
   summary: string;
   details: PodcastDetails;
   lastUpdated: Date | null;
+  favorite: boolean;
 };
 
 export type PodcastDetails = {

@@ -24,5 +24,6 @@ export const mapPodcastEntryToPodcast = (entry: PodcastEntry): Podcast => {
       totalEpisodes: null,
     },
     lastUpdated: null,
+    favorite: false,
   };
 };
